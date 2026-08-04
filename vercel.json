@@ -8,6 +8,10 @@
     {
       "source": "/support",
       "destination": "/index.html"
+    },
+    {
+      "source": "/collaborate",
+      "destination": "/index.html"
     }
   ]
 }

@@ -39,6 +39,42 @@ function PinIcon() {
   )
 }
 
+function FoodTruckIcon() {
+  return (
+    <svg className="collab-icon" viewBox="0 0 64 48" aria-hidden="true">
+      <path d="M5 8h35v27H5zM40 18h10l9 10v7H40zM12 15h20v11H12z" />
+      <circle cx="17" cy="38" r="5" />
+      <circle cx="49" cy="38" r="5" />
+      <path d="M45 23h6l4 5H45z" />
+    </svg>
+  )
+}
+
+function PopUpIcon() {
+  return (
+    <svg className="collab-icon" viewBox="0 0 64 48" aria-hidden="true">
+      <path d="M8 18h48L48 7H16zM12 18v24M52 18v24M8 42h48" />
+      <path d="M20 18v8M32 18v8M44 18v8M18 42V29h28v13" />
+    </svg>
+  )
+}
+
+function HeartIcon() {
+  return (
+    <svg className="value-icon" viewBox="0 0 48 48" aria-hidden="true">
+      <path d="M24 40S7 30 7 17a9 9 0 0 1 17-4 9 9 0 0 1 17 4c0 13-17 23-17 23Z" />
+    </svg>
+  )
+}
+
+function HandshakeIcon() {
+  return (
+    <svg className="value-icon" viewBox="0 0 48 48" aria-hidden="true">
+      <path d="m8 19 8-8 8 4 8-4 8 8M12 23l10 10a4 4 0 0 0 6 0l8-8M18 29l-4 4M23 34l-3 3M30 30l4 4" />
+    </svg>
+  )
+}
+
 function Wordmark({ footer = false, href = '#top' }) {
   return (
     <a className={`wordmark ${footer ? 'wordmark--footer' : ''}`} href={href} aria-label="Vibe Smoke and Supply Co home">
@@ -53,14 +89,14 @@ function Wordmark({ footer = false, href = '#top' }) {
   )
 }
 
-function Header({ supportPage = false }) {
+function Header({ innerPage = false }) {
   const [open, setOpen] = useState(false)
 
   const closeMenu = () => setOpen(false)
 
   return (
     <header className="site-header">
-      <Wordmark href={supportPage ? '/' : '#top'} />
+      <Wordmark href={innerPage ? '/' : '#top'} />
       <button
         className="menu-toggle"
         type="button"
@@ -74,13 +110,14 @@ function Header({ supportPage = false }) {
         <span className="sr-only">Toggle navigation</span>
       </button>
       <nav id="site-nav" className={`site-nav ${open ? 'site-nav--open' : ''}`} aria-label="Main navigation">
-        <a href={supportPage ? '/#shop' : '#shop'} onClick={closeMenu}>The Shop</a>
-        <a href={supportPage ? '/#in-store' : '#in-store'} onClick={closeMenu}>What&apos;s In Store</a>
-        <a href={supportPage ? '/#tumblers' : '#tumblers'} onClick={closeMenu}>Tumblers</a>
-        <a href={supportPage ? '/#visit' : '#visit'} onClick={closeMenu}>Visit</a>
+        <a href={innerPage ? '/#shop' : '#shop'} onClick={closeMenu}>The Shop</a>
+        <a href={innerPage ? '/#in-store' : '#in-store'} onClick={closeMenu}>What&apos;s In Store</a>
+        <a href={innerPage ? '/#tumblers' : '#tumblers'} onClick={closeMenu}>Tumblers</a>
+        <a href={innerPage ? '/#visit' : '#visit'} onClick={closeMenu}>Visit</a>
+        <a href="/collaborate" onClick={closeMenu}>Collaborate</a>
         <a href="/support" onClick={closeMenu}>Support</a>
       </nav>
-      <a className="opening-link" href={supportPage ? '/#visit' : '#visit'}>Opening Aug 8</a>
+      <a className="opening-link" href={innerPage ? '/#visit' : '#visit'}>Opening Aug 8</a>
     </header>
   )
 }
@@ -346,20 +383,21 @@ function Visit() {
   )
 }
 
-function Footer({ supportPage = false }) {
+function Footer({ innerPage = false }) {
   return (
     <footer className="footer">
       <div className="footer__brand">
-        <Wordmark footer href={supportPage ? '/' : '#top'} />
+        <Wordmark footer href={innerPage ? '/' : '#top'} />
         <strong>Veteran owned. Punta Gorda proud.</strong>
         <p>Adults 21+ only. Please enjoy responsibly.</p>
       </div>
       <div className="footer__links">
         <nav aria-label="Footer navigation">
-          <a href={supportPage ? '/#shop' : '#shop'}>The Shop</a>
-          <a href={supportPage ? '/#in-store' : '#in-store'}>What&apos;s In Store</a>
-          <a href={supportPage ? '/#tumblers' : '#tumblers'}>Tumblers</a>
-          <a href={supportPage ? '/#visit' : '#visit'}>Visit</a>
+          <a href={innerPage ? '/#shop' : '#shop'}>The Shop</a>
+          <a href={innerPage ? '/#in-store' : '#in-store'}>What&apos;s In Store</a>
+          <a href={innerPage ? '/#tumblers' : '#tumblers'}>Tumblers</a>
+          <a href={innerPage ? '/#visit' : '#visit'}>Visit</a>
+          <a href="/collaborate">Collaborate</a>
           <a href="/support">Support</a>
         </nav>
         <address className="footer__nap">
@@ -376,13 +414,205 @@ function Footer({ supportPage = false }) {
   )
 }
 
+function CollaboratePage() {
+  const [vendorType, setVendorType] = useState('food-truck')
+  const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [formError, setFormError] = useState('')
+
+  async function handleVendorSubmit(event) {
+    event.preventDefault()
+    setSubmitting(true)
+    setFormError('')
+
+    try {
+      const payload = Object.fromEntries(new FormData(event.currentTarget))
+      const response = await fetch('/api/vendor-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'We could not send your request right now. Please try again.')
+      }
+
+      setSubmitted(true)
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : 'We could not send your request right now. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <>
+      <a className="skip-link" href="#collaborate-content">Skip to collaboration request</a>
+      <main id="collaborate-content">
+        <section className="collaborate-page" id="top">
+          <Header innerPage />
+          <section className="collab-hero">
+            <div className="collab-hero__copy reveal">
+              <h1><span>Bring</span><span>Your vibe.</span></h1>
+              <p>Food trucks, makers, and pop-up shops—let&apos;s build something good together in Punta Gorda.</p>
+              <a className="button button--coral" href="#vendor-request">Request a spot</a>
+            </div>
+            <figure className="collab-hero__media reveal reveal--delay">
+              <img
+                src="/assets/vendor-collaboration-event.jpg"
+                alt="Coral food truck and aqua pop-up canopy at a welcoming Punta Gorda evening event"
+              />
+            </figure>
+          </section>
+
+          <section className="collab-paths" aria-labelledby="collab-paths-title">
+            <h2 className="sr-only" id="collab-paths-title">Ways to collaborate</h2>
+            <article className="collab-path reveal">
+              <div className="collab-path__icon collab-path__icon--coral"><FoodTruckIcon /></div>
+              <div>
+                <h3>Food trucks</h3>
+                <p>Bring the menu and the energy. We&apos;ll coordinate space, timing, and event details with you.</p>
+                <a href="#vendor-request" onClick={() => setVendorType('food-truck')}>Request a food truck spot <ArrowIcon /></a>
+              </div>
+            </article>
+            <article className="collab-path reveal reveal--delay">
+              <div className="collab-path__icon collab-path__icon--aqua"><PopUpIcon /></div>
+              <div>
+                <h3>Pop-up shops</h3>
+                <p>Makers, artists, and local brands are welcome. Tell us what you sell and what your setup needs.</p>
+                <a href="#vendor-request" onClick={() => setVendorType('pop-up')}>Request a pop-up spot <ArrowIcon /></a>
+              </div>
+            </article>
+          </section>
+
+          <section className="vendor-request" id="vendor-request" aria-labelledby="vendor-request-title">
+            {submitted ? (
+              <div className="vendor-success" role="status">
+                <div className="vendor-success__mark" aria-hidden="true">✓</div>
+                <div>
+                  <h2 id="vendor-request-title">Thanks! We got your request.</h2>
+                  <p>We&apos;ll review your info and reach out soon.</p>
+                </div>
+                <a className="button button--coral" href="/">Back to the shop</a>
+              </div>
+            ) : (
+              <div className="vendor-form-card">
+                <h2 id="vendor-request-title">Tell us what you bring.</h2>
+                <form onSubmit={handleVendorSubmit}>
+                  <div className="form-honeypot" aria-hidden="true">
+                    <label htmlFor="vendor-website">Leave this field blank</label>
+                    <input id="vendor-website" name="website" type="text" tabIndex="-1" autoComplete="off" />
+                  </div>
+
+                  <fieldset className="vendor-type-fieldset">
+                    <legend>Collaboration type <span aria-hidden="true">*</span></legend>
+                    <div className="vendor-type-options">
+                      <label className={`vendor-type-option vendor-type-option--truck ${vendorType === 'food-truck' ? 'vendor-type-option--selected' : ''}`}>
+                        <input
+                          type="radio"
+                          name="collaborationType"
+                          value="food-truck"
+                          checked={vendorType === 'food-truck'}
+                          onChange={(event) => setVendorType(event.target.value)}
+                        />
+                        <FoodTruckIcon />
+                        <span>Food truck</span>
+                      </label>
+                      <label className={`vendor-type-option vendor-type-option--popup ${vendorType === 'pop-up' ? 'vendor-type-option--selected' : ''}`}>
+                        <input
+                          type="radio"
+                          name="collaborationType"
+                          value="pop-up"
+                          checked={vendorType === 'pop-up'}
+                          onChange={(event) => setVendorType(event.target.value)}
+                        />
+                        <PopUpIcon />
+                        <span>Pop-up shop</span>
+                      </label>
+                    </div>
+                  </fieldset>
+
+                  <div className="vendor-form-grid">
+                    <label className="vendor-field vendor-field--wide">
+                      <span>Business name <b aria-hidden="true">*</b></span>
+                      <input name="businessName" type="text" autoComplete="organization" maxLength="120" required />
+                    </label>
+                    <label className="vendor-field vendor-field--wide">
+                      <span>Contact name <b aria-hidden="true">*</b></span>
+                      <input name="contactName" type="text" autoComplete="name" maxLength="120" required />
+                    </label>
+                    <label className="vendor-field">
+                      <span>Email <b aria-hidden="true">*</b></span>
+                      <input name="email" type="email" autoComplete="email" maxLength="254" required />
+                    </label>
+                    <label className="vendor-field">
+                      <span>Phone <b aria-hidden="true">*</b></span>
+                      <input name="phone" type="tel" autoComplete="tel" maxLength="40" required />
+                    </label>
+                    <label className="vendor-field vendor-field--wide">
+                      <span>Website or social</span>
+                      <input name="websiteOrSocial" type="text" placeholder="Website or @handle" maxLength="200" />
+                    </label>
+                    <label className="vendor-field vendor-field--wide">
+                      <span>Preferred date <b aria-hidden="true">*</b></span>
+                      <input name="preferredDate" type="text" placeholder="A date, month, or flexible" maxLength="100" required />
+                    </label>
+                    <label className="vendor-field vendor-field--wide">
+                      <span>What do you serve or sell? <b aria-hidden="true">*</b></span>
+                      <textarea name="offering" rows="3" maxLength="1200" required />
+                    </label>
+                    <label className="vendor-field vendor-field--wide">
+                      <span>Setup size and power needs <b aria-hidden="true">*</b></span>
+                      <textarea name="setupNeeds" rows="3" placeholder="For example: 10×10 tent, 15-foot truck, or 110V power" maxLength="1200" required />
+                    </label>
+                    <label className="vendor-field vendor-field--wide">
+                      <span>Anything else we should know?</span>
+                      <textarea name="notes" rows="4" maxLength="2000" />
+                    </label>
+                  </div>
+
+                  <button className="button button--coral vendor-submit" type="submit" disabled={submitting}>
+                    {submitting ? 'Sending…' : 'Send collaboration request'}
+                  </button>
+                  <p className="vendor-form-note">We&apos;ll only use these details to review your request and contact you about Vibe events.</p>
+                  {formError ? <p className="vendor-form-error" role="alert">{formError}</p> : null}
+                </form>
+              </div>
+            )}
+          </section>
+
+          <section className="collab-values" aria-label="What to expect">
+            <article>
+              <div className="collab-value__icon"><PinIcon /></div>
+              <h2>Local first</h2>
+              <p>We spotlight local talent and Punta Gorda businesses.</p>
+            </article>
+            <article>
+              <div className="collab-value__icon"><HandshakeIcon /></div>
+              <h2>Plan together</h2>
+              <p>We&apos;ll work with you on logistics, timing, and setup details.</p>
+            </article>
+            <article>
+              <div className="collab-value__icon"><HeartIcon /></div>
+              <h2>Keep it welcoming</h2>
+              <p>Great vibes, friendly faces, and a space everyone enjoys.</p>
+            </article>
+          </section>
+        </section>
+      </main>
+      <Footer innerPage />
+    </>
+  )
+}
+
 function SupportPage() {
   return (
     <>
       <a className="skip-link" href="#support-content">Skip to support</a>
       <main id="support-content">
         <section className="support-page" id="top">
-          <Header supportPage />
+          <Header innerPage />
           <div className="support-page__grid">
             <div className="support-page__intro">
               <div className="short-rule" />
@@ -426,13 +656,15 @@ function SupportPage() {
           </section>
         </section>
       </main>
-      <Footer supportPage />
+      <Footer innerPage />
     </>
   )
 }
 
 export default function App() {
-  const isSupportPage = window.location.pathname.replace(/\/+$/, '') === '/support'
+  const currentPath = window.location.pathname.replace(/\/+$/, '') || '/'
+  const isSupportPage = currentPath === '/support'
+  const isCollaboratePage = currentPath === '/collaborate'
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -449,15 +681,21 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    const pageTitle = isSupportPage
-      ? 'Support | Vibe Smoke & Supply Co'
-      : 'Vibe Smoke & Supply Co | Punta Gorda, FL'
-    const pageDescription = isSupportPage
-      ? 'Contact Vibe Smoke & Supply Co support by email or phone, or visit us at 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982.'
-      : 'Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop at 5260 Duncan Rd, Unit 3, Punta Gorda, Florida. Opening August 8, 2026. Adults 21+ only.'
-    const pageUrl = isSupportPage
-      ? 'https://www.vibesupplyco.org/support'
-      : 'https://www.vibesupplyco.org/'
+    const pageTitle = isCollaboratePage
+      ? 'Food Truck & Pop-Up Collaborations | Vibe Smoke & Supply Co'
+      : isSupportPage
+        ? 'Support | Vibe Smoke & Supply Co'
+        : 'Vibe Smoke & Supply Co | Punta Gorda, FL'
+    const pageDescription = isCollaboratePage
+      ? 'Food trucks, makers, artists, and pop-up shops can request to collaborate at Vibe Smoke & Supply Co events in Punta Gorda, Florida.'
+      : isSupportPage
+        ? 'Contact Vibe Smoke & Supply Co support by email or phone, or visit us at 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982.'
+        : 'Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop at 5260 Duncan Rd, Unit 3, Punta Gorda, Florida. Opening August 8, 2026. Adults 21+ only.'
+    const pageUrl = isCollaboratePage
+      ? 'https://www.vibesupplyco.org/collaborate'
+      : isSupportPage
+        ? 'https://www.vibesupplyco.org/support'
+        : 'https://www.vibesupplyco.org/'
 
     document.title = pageTitle
     document.querySelector('meta[name="description"]')?.setAttribute('content', pageDescription)
@@ -465,8 +703,9 @@ export default function App() {
     document.querySelector('meta[property="og:description"]')?.setAttribute('content', pageDescription)
     document.querySelector('meta[property="og:url"]')?.setAttribute('content', pageUrl)
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', pageUrl)
-  }, [isSupportPage])
+  }, [isCollaboratePage, isSupportPage])
 
+  if (isCollaboratePage) return <CollaboratePage />
   if (isSupportPage) return <SupportPage />
 
   return (
