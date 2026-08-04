@@ -112,7 +112,6 @@ function Header({ innerPage = false }) {
       <nav id="site-nav" className={`site-nav ${open ? 'site-nav--open' : ''}`} aria-label="Main navigation">
         <a href={innerPage ? '/#shop' : '#shop'} onClick={closeMenu}>The Shop</a>
         <a href={innerPage ? '/#in-store' : '#in-store'} onClick={closeMenu}>What&apos;s In Store</a>
-        <a href={innerPage ? '/#tumblers' : '#tumblers'} onClick={closeMenu}>Tumblers</a>
         <a href={innerPage ? '/#visit' : '#visit'} onClick={closeMenu}>Visit</a>
         <a href="/collaborate" onClick={closeMenu}>Collaborate</a>
         <a href="/support" onClick={closeMenu}>Support</a>
@@ -395,7 +394,6 @@ function Footer({ innerPage = false }) {
         <nav aria-label="Footer navigation">
           <a href={innerPage ? '/#shop' : '#shop'}>The Shop</a>
           <a href={innerPage ? '/#in-store' : '#in-store'}>What&apos;s In Store</a>
-          <a href={innerPage ? '/#tumblers' : '#tumblers'}>Tumblers</a>
           <a href={innerPage ? '/#visit' : '#visit'}>Visit</a>
           <a href="/collaborate">Collaborate</a>
           <a href="/support">Support</a>
