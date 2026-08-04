@@ -238,6 +238,28 @@ function Tumblers() {
   )
 }
 
+function CollaborationTeaser() {
+  return (
+    <section className="home-collab" aria-labelledby="home-collab-title">
+      <div className="home-collab__copy reveal">
+        <h2 id="home-collab-title">Bring your business. Meet the neighborhood.</h2>
+        <p>Run a food truck or pop-up shop? We&apos;re teaming up with local vendors for Vibe events in Punta Gorda.</p>
+        <a className="home-collab__cta" href="/collaborate">
+          Collaborate with us <ArrowIcon />
+        </a>
+        <p className="home-collab__types">Food trucks · Makers · Pop-up shops</p>
+      </div>
+      <figure className="home-collab__media reveal reveal--delay">
+        <img
+          src="/assets/vendor-collaboration-event.jpg"
+          alt="Coral food truck and aqua pop-up canopy at a welcoming Punta Gorda evening event"
+          loading="lazy"
+        />
+      </figure>
+    </section>
+  )
+}
+
 function getTimeLeft() {
   const difference = Math.max(0, OPENING_DATE.getTime() - Date.now())
   return {
@@ -714,6 +736,7 @@ export default function App() {
         <Story />
         <ProductRail />
         <Tumblers />
+        <CollaborationTeaser />
         <Visit />
       </main>
       <Footer />
