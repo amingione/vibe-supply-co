@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 
 const OPENING_DATE = new Date('2026-08-08T00:00:00-04:00')
 const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=5260%20Duncan%20Rd%20Unit%203%2C%20Punta%20Gorda%2C%20FL%2033982'
-const CALENDAR_URL = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Vibe%20Smoke%20%26%20Supply%20Co%20Opening%20Day&dates=20260808%2F20260809&details=Opening%20day%20for%20Vibe%20Smoke%20%26%20Supply%20Co.%20Adults%2021%2B%20only.&location=5260%20Duncan%20Rd%2C%20Unit%203%2C%20Punta%20Gorda%2C%20FL%2033982'
+const GOOGLE_CALENDAR_URL = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Vibe%20Smoke%20%26%20Supply%20Co%20Opening%20Day&dates=20260808%2F20260809&details=Opening%20day%20for%20Vibe%20Smoke%20%26%20Supply%20Co.%20Adults%2021%2B%20only.&location=5260%20Duncan%20Rd%2C%20Unit%203%2C%20Punta%20Gorda%2C%20FL%2033982'
 
 const tumblers = [
   { name: 'Mint', src: '/products/vibe-tumbler-mint.jpg' },
@@ -329,9 +329,14 @@ function Visit() {
               {formError ? <p className="form-error" role="alert">{formError}</p> : null}
             </form>
           )}
-          <a className="calendar-link" href={CALENDAR_URL}>
-            Add opening day to Google Calendar <ArrowIcon />
-          </a>
+          <div className="calendar-links" aria-label="Add opening day to a calendar">
+            <a className="calendar-link" href="/vibe-opening-day.ics">
+              Add to Apple Calendar <ArrowIcon />
+            </a>
+            <a className="calendar-link" href={GOOGLE_CALENDAR_URL}>
+              Add to Google Calendar <ArrowIcon />
+            </a>
+          </div>
         </div>
       </div>
       <figure className="visit__strip">
