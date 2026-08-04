@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 
 const OPENING_DATE = new Date('2026-08-08T00:00:00-04:00')
+const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=5260%20Duncan%20Rd%20Unit%203%2C%20Punta%20Gorda%2C%20FL%2033982'
 
 const products = [
   { name: 'Vape', detail: 'Devices, e-liquids & more', position: '0%' },
@@ -204,13 +205,13 @@ function downloadCalendarEvent() {
     'VERSION:2.0',
     'PRODID:-//Vibe Smoke & Supply Co//Opening Day//EN',
     'BEGIN:VEVENT',
-    'UID:vibe-opening-20260808@vibesupply.co',
+    'UID:vibe-opening-20260808@vibesupplyco.org',
     'DTSTAMP:20260802T160000Z',
     'DTSTART;VALUE=DATE:20260808',
     'DTEND;VALUE=DATE:20260809',
     'SUMMARY:Vibe Smoke & Supply Co Opening Day',
-    'LOCATION:Punta Gorda\\, Florida',
-    'DESCRIPTION:Opening day for Vibe Smoke & Supply Co. Adults 21+ only.',
+    'LOCATION:5260 Duncan Rd\\, Unit 3\\, Punta Gorda\\, FL 33982',
+    'DESCRIPTION:Opening day for Vibe Smoke & Supply Co at 5260 Duncan Rd Unit 3. Adults 21+ only.',
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n')
@@ -264,6 +265,13 @@ function Visit() {
         <div className="visit__date reveal">
           <h2>Pull up August 8.</h2>
           <p>Opening day in Punta Gorda, Florida. Bring your ID—this shop is for adults 21+.</p>
+          <address className="visit__contact">
+            <a href={MAPS_URL} target="_blank" rel="noreferrer">
+              5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982
+            </a>
+            <a href="tel:+18128011391">(812) 801-1391</a>
+            <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
+          </address>
           <time dateTime="2026-08-08">08 / 08 / 26</time>
           <Countdown />
         </div>
@@ -327,7 +335,14 @@ function Footer() {
           <a href="#in-store">What&apos;s In Store</a>
           <a href="#visit">Visit</a>
         </nav>
-        <p className="footer__location"><PinIcon /> Punta Gorda, Florida</p>
+        <address className="footer__nap">
+          <a className="footer__location" href={MAPS_URL} target="_blank" rel="noreferrer">
+            <PinIcon />
+            <span>5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982</span>
+          </a>
+          <a href="tel:+18128011391">(812) 801-1391</a>
+          <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
+        </address>
         <p className="footer__copyright">© 2026 Vibe Smoke &amp; Supply Co.</p>
       </div>
     </footer>

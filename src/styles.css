@@ -618,6 +618,29 @@ a {
   line-height: 1.25;
 }
 
+.visit__contact {
+  display: grid;
+  gap: 0.45rem;
+  width: fit-content;
+  margin: 1.6rem 0 0;
+  padding-left: 1rem;
+  border-left: 4px solid var(--orange);
+  font-style: normal;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.visit__contact a {
+  width: fit-content;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2rem;
+}
+
+.visit__contact a:hover,
+.visit__contact a:focus-visible {
+  color: var(--coral);
+}
+
 .visit time {
   display: block;
   width: fit-content;
@@ -885,7 +908,27 @@ a {
   align-items: center;
   gap: 0.7rem;
   font-weight: 700;
-  white-space: nowrap;
+}
+
+.footer__nap {
+  display: grid;
+  gap: 0.65rem;
+  font-style: normal;
+}
+
+.footer__nap > a:not(.footer__location) {
+  width: fit-content;
+  margin-left: 2.5rem;
+  color: var(--paper);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--coral);
+  text-underline-offset: 0.25rem;
+}
+
+.footer__nap a:hover,
+.footer__nap a:focus-visible {
+  color: var(--yellow);
 }
 
 .pin-icon {

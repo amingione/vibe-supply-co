@@ -63,7 +63,7 @@ export default async function handler(request, response) {
 
   const resend = new Resend(process.env.RESEND_API_KEY)
   const topicId = process.env.RESEND_TOPIC_ID || VIBE_TOPIC_ID
-  const notifyEmail = process.env.RESEND_NOTIFY_EMAIL || 'jayrmclain@gmail.com'
+  const notifyEmail = process.env.RESEND_NOTIFY_EMAIL || 'vibesupplypg@gmail.com'
   const topicPreference = [{ id: topicId, subscription: 'opt_in' }]
 
   try {
