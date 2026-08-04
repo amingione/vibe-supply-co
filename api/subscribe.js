@@ -4,6 +4,13 @@ const VIBE_TOPIC_ID = '4dfe54d9-ffe7-4266-b722-5225b6c06f43'
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
 const RATE_LIMIT_MAX = 5
 const attempts = new Map()
+const BUSINESS_CONTACT = [
+  'Vibe Smoke & Supply Co',
+  '5260 Duncan Rd, Unit 3',
+  'Punta Gorda, FL 33982',
+  'Support: vibesupplypg@gmail.com',
+  'Phone: (812) 801-1391',
+].join('\n')
 
 function getClientIp(request) {
   const forwarded = request.headers['x-forwarded-for']
@@ -99,7 +106,7 @@ export default async function handler(request, response) {
           to: [notifyEmail],
           replyTo: email,
           subject: 'New Vibe opening update signup',
-          text: `${email} subscribed to Vibe Opening Updates.`,
+          text: `${email} subscribed to Vibe Opening Updates.\n\n${BUSINESS_CONTACT}`,
           tags: [{ name: 'source', value: 'vibe-opening-site' }],
         },
         { idempotencyKey: `vibe-signup-notice/${contactId}` },

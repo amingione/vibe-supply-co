@@ -3,6 +3,13 @@ import { useEffect, useMemo, useState } from 'react'
 const OPENING_DATE = new Date('2026-08-08T00:00:00-04:00')
 const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=5260%20Duncan%20Rd%20Unit%203%2C%20Punta%20Gorda%2C%20FL%2033982'
 
+const tumblers = [
+  { name: 'Mint', src: '/products/vibe-tumbler-mint.jpg' },
+  { name: 'Cream', src: '/products/vibe-tumbler-cream.jpg' },
+  { name: 'Hot Pink', src: '/products/vibe-tumbler-hot-pink.jpg' },
+  { name: 'Charcoal', src: '/products/vibe-tumbler-charcoal.jpg' },
+]
+
 const products = [
   { name: 'Vape', detail: 'Devices, e-liquids & more', position: '0%' },
   { name: 'Smoke', detail: 'Glass, papers & essentials', position: '33.333%' },
@@ -31,9 +38,9 @@ function PinIcon() {
   )
 }
 
-function Wordmark({ footer = false }) {
+function Wordmark({ footer = false, href = '#top' }) {
   return (
-    <a className={`wordmark ${footer ? 'wordmark--footer' : ''}`} href="#top" aria-label="Vibe Smoke and Supply Co home">
+    <a className={`wordmark ${footer ? 'wordmark--footer' : ''}`} href={href} aria-label="Vibe Smoke and Supply Co home">
       <img
         src="/assets/vibe-logo.png"
         alt=""
@@ -45,14 +52,14 @@ function Wordmark({ footer = false }) {
   )
 }
 
-function Header() {
+function Header({ supportPage = false }) {
   const [open, setOpen] = useState(false)
 
   const closeMenu = () => setOpen(false)
 
   return (
     <header className="site-header">
-      <Wordmark />
+      <Wordmark href={supportPage ? '/' : '#top'} />
       <button
         className="menu-toggle"
         type="button"
@@ -66,11 +73,13 @@ function Header() {
         <span className="sr-only">Toggle navigation</span>
       </button>
       <nav id="site-nav" className={`site-nav ${open ? 'site-nav--open' : ''}`} aria-label="Main navigation">
-        <a href="#shop" onClick={closeMenu}>The Shop</a>
-        <a href="#in-store" onClick={closeMenu}>What&apos;s In Store</a>
-        <a href="#visit" onClick={closeMenu}>Visit</a>
+        <a href={supportPage ? '/#shop' : '#shop'} onClick={closeMenu}>The Shop</a>
+        <a href={supportPage ? '/#in-store' : '#in-store'} onClick={closeMenu}>What&apos;s In Store</a>
+        <a href={supportPage ? '/#tumblers' : '#tumblers'} onClick={closeMenu}>Tumblers</a>
+        <a href={supportPage ? '/#visit' : '#visit'} onClick={closeMenu}>Visit</a>
+        <a href="/support" onClick={closeMenu}>Support</a>
       </nav>
-      <a className="opening-link" href="#visit">Opening Aug 8</a>
+      <a className="opening-link" href={supportPage ? '/#visit' : '#visit'}>Opening Aug 8</a>
     </header>
   )
 }
@@ -153,6 +162,41 @@ function ProductRail() {
       <a className="button button--outline" href="#visit">
         See you opening day <ArrowIcon />
       </a>
+    </section>
+  )
+}
+
+function Tumblers() {
+  return (
+    <section className="tumblers" id="tumblers">
+      <div className="tumblers__feature">
+        <div className="tumblers__copy reveal">
+          <div className="short-rule" />
+          <h2>Carry the vibe<span>.</span></h2>
+          <p>
+            Vibe tumblers in four standout colors. Pick your favorite in store while supplies last.
+          </p>
+          <a className="button button--coral" href="#visit">Find them opening day</a>
+        </div>
+        <figure className="tumblers__group reveal reveal--delay">
+          <img
+            src="/products/vibe-tumblers-nightlife-background.jpg"
+            alt="Mint, cream, hot pink, and charcoal Vibe Smoke and Supply Co tumblers"
+            loading="lazy"
+          />
+        </figure>
+      </div>
+      <div className="tumblers__rail" aria-label="Vibe tumbler colors">
+        {tumblers.map((tumbler) => (
+          <figure className="tumbler reveal" key={tumbler.name}>
+            <img src={tumbler.src} alt={`${tumbler.name} Vibe tumbler`} loading="lazy" />
+            <figcaption>
+              <strong>{tumbler.name}</strong>
+              <span>Available in store</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
     </section>
   )
 }
@@ -321,19 +365,21 @@ function Visit() {
   )
 }
 
-function Footer() {
+function Footer({ supportPage = false }) {
   return (
     <footer className="footer">
       <div className="footer__brand">
-        <Wordmark footer />
+        <Wordmark footer href={supportPage ? '/' : '#top'} />
         <strong>Veteran owned. Punta Gorda proud.</strong>
         <p>Adults 21+ only. Please enjoy responsibly.</p>
       </div>
       <div className="footer__links">
         <nav aria-label="Footer navigation">
-          <a href="#shop">The Shop</a>
-          <a href="#in-store">What&apos;s In Store</a>
-          <a href="#visit">Visit</a>
+          <a href={supportPage ? '/#shop' : '#shop'}>The Shop</a>
+          <a href={supportPage ? '/#in-store' : '#in-store'}>What&apos;s In Store</a>
+          <a href={supportPage ? '/#tumblers' : '#tumblers'}>Tumblers</a>
+          <a href={supportPage ? '/#visit' : '#visit'}>Visit</a>
+          <a href="/support">Support</a>
         </nav>
         <address className="footer__nap">
           <a className="footer__location" href={MAPS_URL} target="_blank" rel="noreferrer">
@@ -349,7 +395,64 @@ function Footer() {
   )
 }
 
+function SupportPage() {
+  return (
+    <>
+      <a className="skip-link" href="#support-content">Skip to support</a>
+      <main id="support-content">
+        <section className="support-page" id="top">
+          <Header supportPage />
+          <div className="support-page__grid">
+            <div className="support-page__intro">
+              <div className="short-rule" />
+              <h1>We&apos;re here to help.</h1>
+              <p>
+                Questions about the store, opening day, or a product? Reach out to the Vibe team.
+              </p>
+              <a className="button button--coral" href="mailto:vibesupplypg@gmail.com">Email support</a>
+            </div>
+            <section className="support-card" aria-labelledby="support-contact-title">
+              <h2 id="support-contact-title">Vibe support</h2>
+              <address>
+                <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
+                <a href="tel:+18128011391">(812) 801-1391</a>
+                <a href={MAPS_URL} target="_blank" rel="noreferrer">
+                  5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982
+                </a>
+              </address>
+              <p>
+                For faster help, include your name, question, and the product details you have.
+                Please do not email identification documents or other sensitive information.
+              </p>
+            </section>
+          </div>
+          <section className="support-faq" aria-labelledby="support-faq-title">
+            <h2 id="support-faq-title">Good to know.</h2>
+            <div className="support-faq__items">
+              <article>
+                <h3>When do you open?</h3>
+                <p>Opening day is August 8, 2026.</p>
+              </article>
+              <article>
+                <h3>Where are you?</h3>
+                <p>5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982.</p>
+              </article>
+              <article>
+                <h3>Who can shop?</h3>
+                <p>Vibe is for adults 21+ only. Please bring a valid ID.</p>
+              </article>
+            </div>
+          </section>
+        </section>
+      </main>
+      <Footer supportPage />
+    </>
+  )
+}
+
 export default function App() {
+  const isSupportPage = window.location.pathname.replace(/\/+$/, '') === '/support'
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -364,6 +467,27 @@ export default function App() {
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    const pageTitle = isSupportPage
+      ? 'Support | Vibe Smoke & Supply Co'
+      : 'Vibe Smoke & Supply Co | Punta Gorda, FL'
+    const pageDescription = isSupportPage
+      ? 'Contact Vibe Smoke & Supply Co support by email or phone, or visit us at 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982.'
+      : 'Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop at 5260 Duncan Rd, Unit 3, Punta Gorda, Florida. Opening August 8, 2026. Adults 21+ only.'
+    const pageUrl = isSupportPage
+      ? 'https://www.vibesupplyco.org/support'
+      : 'https://www.vibesupplyco.org/'
+
+    document.title = pageTitle
+    document.querySelector('meta[name="description"]')?.setAttribute('content', pageDescription)
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', pageTitle)
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', pageDescription)
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', pageUrl)
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', pageUrl)
+  }, [isSupportPage])
+
+  if (isSupportPage) return <SupportPage />
+
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>
@@ -371,6 +495,7 @@ export default function App() {
         <Hero />
         <Story />
         <ProductRail />
+        <Tumblers />
         <Visit />
       </main>
       <Footer />

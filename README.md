@@ -2,6 +2,8 @@
 
 Vite/React launch site for Vibe Smoke & Supply Co., ready for Vercel.
 
+The public site includes a dedicated customer support page at `/support` with the canonical business address, phone, and email.
+
 ## Local development
 
 ```bash
@@ -14,6 +16,7 @@ The regular Vite server renders the site, but the Resend signup endpoint runs as
 ## Resend and Vercel
 
 The opening-updates form creates or updates a Resend contact and opts that contact into the public **Vibe Opening Updates** topic.
+New-signup admin notifications include the canonical Vibe support email, phone, and postal address.
 
 Add these Environment Variables to the Vercel project for Production, Preview, and Development:
 

@@ -14,6 +14,7 @@ This file is the canonical setup reference for business listings, social profile
 | Opening date | August 8, 2026 |
 | Age requirement | Adults 21+ only; valid ID required |
 | Website | https://www.vibesupplyco.org/ |
+| Support page | https://www.vibesupplyco.org/support |
 | Primary public email | vibesupplypg@gmail.com |
 | Primary phone | (812) 801-1391 |
 | Preferred social handle | @vibesupplypg |
@@ -63,6 +64,10 @@ vibesupplypg@gmail.com
 **Website**
 
 https://www.vibesupplyco.org/
+
+**Customer support page**
+
+https://www.vibesupplyco.org/support
 
 **Directions link**
 
