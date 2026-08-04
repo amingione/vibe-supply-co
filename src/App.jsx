@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 
 const OPENING_DATE = new Date('2026-08-08T00:00:00-04:00')
 const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=5260%20Duncan%20Rd%20Unit%203%2C%20Punta%20Gorda%2C%20FL%2033982'
+const CALENDAR_URL = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Vibe%20Smoke%20%26%20Supply%20Co%20Opening%20Day&dates=20260808%2F20260809&details=Opening%20day%20for%20Vibe%20Smoke%20%26%20Supply%20Co.%20Adults%2021%2B%20only.&location=5260%20Duncan%20Rd%2C%20Unit%203%2C%20Punta%20Gorda%2C%20FL%2033982'
 
 const tumblers = [
   { name: 'Mint', src: '/products/vibe-tumbler-mint.jpg' },
@@ -243,31 +244,6 @@ function Countdown() {
   )
 }
 
-function downloadCalendarEvent() {
-  const calendar = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Vibe Smoke & Supply Co//Opening Day//EN',
-    'BEGIN:VEVENT',
-    'UID:vibe-opening-20260808@vibesupplyco.org',
-    'DTSTAMP:20260802T160000Z',
-    'DTSTART;VALUE=DATE:20260808',
-    'DTEND;VALUE=DATE:20260809',
-    'SUMMARY:Vibe Smoke & Supply Co Opening Day',
-    'LOCATION:5260 Duncan Rd\\, Unit 3\\, Punta Gorda\\, FL 33982',
-    'DESCRIPTION:Opening day for Vibe Smoke & Supply Co at 5260 Duncan Rd Unit 3. Adults 21+ only.',
-    'END:VEVENT',
-    'END:VCALENDAR',
-  ].join('\r\n')
-
-  const url = URL.createObjectURL(new Blob([calendar], { type: 'text/calendar' }))
-  const link = document.createElement('a')
-  link.href = url
-  link.download = 'vibe-smoke-supply-opening-day.ics'
-  link.click()
-  URL.revokeObjectURL(url)
-}
-
 function Visit() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
@@ -353,9 +329,9 @@ function Visit() {
               {formError ? <p className="form-error" role="alert">{formError}</p> : null}
             </form>
           )}
-          <button className="calendar-link" type="button" onClick={downloadCalendarEvent}>
-            Add opening day to calendar <ArrowIcon />
-          </button>
+          <a className="calendar-link" href={CALENDAR_URL}>
+            Add opening day to Google Calendar <ArrowIcon />
+          </a>
         </div>
       </div>
       <figure className="visit__strip">
