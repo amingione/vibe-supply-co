@@ -347,7 +347,7 @@ function Visit() {
             <a href={MAPS_URL} target="_blank" rel="noreferrer">
               5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982
             </a>
-            <a href="tel:+18128011391">(812) 801-1391</a>
+            <a href="tel: 9415004112">(812) 801-1391</a>
             <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
           </address>
           <time dateTime="2026-08-08">08 / 08 / 26</time>
@@ -425,7 +425,7 @@ function Footer({ innerPage = false }) {
             <PinIcon />
             <span>5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982</span>
           </a>
-          <a href="tel:+18128011391">(812) 801-1391</a>
+          <a href="tel: 9415004112">(812) 801-1391</a>
           <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
         </address>
         <p className="footer__copyright">© 2026 Vibe Smoke &amp; Supply Co.</p>
@@ -646,7 +646,7 @@ function SupportPage() {
               <h2 id="support-contact-title">Vibe support</h2>
               <address>
                 <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
-                <a href="tel:+18128011391">(812) 801-1391</a>
+                <a href="tel: 9415004112">(812) 801-1391</a>
                 <a href={MAPS_URL} target="_blank" rel="noreferrer">
                   5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982
                 </a>

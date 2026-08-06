@@ -47,11 +47,11 @@ PUNTA GORDA FL 33982
 
 **Phone — E.164/API format**
 
-+18128011391
+ 9415004112
 
 **Phone link**
 
-`tel:+18128011391`
+`tel: 9415004112`
 
 **Email**
 
@@ -265,7 +265,7 @@ Punta Gorda's new vibe. Veteran-owned. Opening Aug 8. Adults 21+.
 
 1. Use `Vibe Smoke & Supply Co` exactly; do not add a period after `Co` in listing names.
 2. Use `5260 Duncan Rd, Unit 3` everywhere; do not substitute `Suite 3` or `#3`.
-3. Display the phone as `(812) 801-1391`; use `+18128011391` only in technical fields.
+3. Display the phone as `(812) 801-1391`; use ` 9415004112` only in technical fields.
 4. Use `vibesupplypg@gmail.com` in lowercase.
 5. Use `https://www.vibesupplyco.org/` as the canonical website URL.
 6. Use @vibesupplypg as the first-choice handle across platforms.
