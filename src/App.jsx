@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-const OPENING_DATE = new Date('2026-08-08T00:00:00-04:00')
+import { STORE_HOURS, getStoreStatus } from './storeHours'
+
 const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=5260%20Duncan%20Rd%20Unit%203%2C%20Punta%20Gorda%2C%20FL%2033982'
-const GOOGLE_CALENDAR_URL = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Vibe%20Smoke%20%26%20Supply%20Co%20Opening%20Day&dates=20260808%2F20260809&details=Opening%20day%20for%20Vibe%20Smoke%20%26%20Supply%20Co.%20Adults%2021%2B%20only.&location=5260%20Duncan%20Rd%2C%20Unit%203%2C%20Punta%20Gorda%2C%20FL%2033982'
 
 const tumblers = [
   { name: 'Mint', src: '/products/vibe-tumbler-mint.jpg' },
@@ -116,7 +116,7 @@ function Header({ innerPage = false }) {
         <a href="/collaborate" onClick={closeMenu}>Collaborate</a>
         <a href="/support" onClick={closeMenu}>Support</a>
       </nav>
-      <a className="opening-link" href={innerPage ? '/#visit' : '#visit'}>Opening Aug 8</a>
+      <a className="now-open-link" href={innerPage ? '/#visit' : '#visit'}>Now Open</a>
     </header>
   )
 }
@@ -134,9 +134,9 @@ function Hero() {
             <span className="hero__word hero__word--aqua">Vibe.</span>
           </h1>
           <div className="short-rule" />
-          <p>Smoke, vape, and everyday essentials—curated for the coast. Doors open August 8.</p>
+          <p>Smoke, vape, and everyday essentials—curated for the coast. Open seven days a week.</p>
           <div className="hero__actions">
-            <a className="button button--coral" href="#updates">Get opening updates</a>
+            <a className="button button--coral" href="tel: +19415004112">Call (941) 500-4112</a>
             <a className="text-link text-link--aqua" href="#visit">
               Plan your visit <ArrowIcon />
             </a>
@@ -197,7 +197,7 @@ function ProductRail() {
         </div>
       </div>
       <a className="button button--outline" href="#visit">
-        See you opening day <ArrowIcon />
+        Come see us <ArrowIcon />
       </a>
     </section>
   )
@@ -213,7 +213,7 @@ function Tumblers() {
           <p>
             Vibe tumblers in four standout colors. Pick your favorite in store while supplies last.
           </p>
-          <a className="button button--coral" href="#visit">Find them opening day</a>
+          <a className="button button--coral" href="#visit">Find them in store</a>
         </div>
         <figure className="tumblers__group reveal reveal--delay">
           <img
@@ -260,45 +260,32 @@ function CollaborationTeaser() {
   )
 }
 
-function getTimeLeft() {
-  const difference = Math.max(0, OPENING_DATE.getTime() - Date.now())
-  return {
-    days: Math.floor(difference / 86400000),
-    hours: Math.floor((difference / 3600000) % 24),
-    minutes: Math.floor((difference / 60000) % 60),
-    seconds: Math.floor((difference / 1000) % 60),
-    isOpen: difference === 0,
-  }
-}
-
-function Countdown() {
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft)
+function StoreStatus() {
+  const [status, setStatus] = useState(getStoreStatus)
 
   useEffect(() => {
-    const timer = window.setInterval(() => setTimeLeft(getTimeLeft()), 1000)
+    const timer = window.setInterval(() => setStatus(getStoreStatus()), 60000)
     return () => window.clearInterval(timer)
   }, [])
 
-  const values = useMemo(() => [
-    ['Days', timeLeft.days],
-    ['Hours', timeLeft.hours],
-    ['Minutes', timeLeft.minutes],
-    ['Seconds', timeLeft.seconds],
-  ], [timeLeft])
-
-  if (timeLeft.isOpen) {
-    return <p className="countdown__open">The doors are open.</p>
-  }
-
   return (
-    <div className="countdown" aria-label="Countdown to opening day">
-      {values.map(([label, value]) => (
-        <div className="countdown__unit" key={label}>
-          <strong>{String(value).padStart(2, '0')}</strong>
-          <span>{label}</span>
+    <div className={`store-status ${status.isOpen ? 'store-status--open' : 'store-status--closed'}`}>
+      <p className="store-status__headline">{status.headline}</p>
+      <p className="store-status__detail" role="status">{status.detail}</p>
+    </div>
+  )
+}
+
+function Hours({ variant = '' }) {
+  return (
+    <dl className={`hours ${variant ? `hours--${variant}` : ''}`.trim()}>
+      {STORE_HOURS.map(({ days, time }) => (
+        <div className="hours__row" key={days}>
+          <dt>{days}</dt>
+          <dd>{time}</dd>
         </div>
       ))}
-    </div>
+    </dl>
   )
 }
 
@@ -341,8 +328,8 @@ function Visit() {
     <section className="visit" id="visit">
       <div className="visit__grid">
         <div className="visit__date reveal">
-          <h2>Pull up August 8.</h2>
-          <p>Opening day in Punta Gorda, Florida. Bring your ID—this shop is for adults 21+.</p>
+          <h2>Pull up today.</h2>
+          <p>Open seven days a week in Punta Gorda, Florida. Bring your ID—this shop is for adults 21+.</p>
           <address className="visit__contact">
             <a href={MAPS_URL} target="_blank" rel="noreferrer">
               5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982
@@ -350,15 +337,18 @@ function Visit() {
             <a href="tel: +19415004112">(941) 500-4112</a>
             <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
           </address>
-          <time dateTime="2026-08-08">08 / 08 / 26</time>
-          <Countdown />
+          <div className="visit__hours">
+            <h3>Store hours</h3>
+            <Hours />
+          </div>
+          <StoreStatus />
         </div>
         <div className="updates reveal reveal--delay" id="updates">
-          <h3>Get opening updates <ArrowIcon /></h3>
+          <h3>In the loop <ArrowIcon /></h3>
           {submitted ? (
             <div className="form-success" role="status">
               <strong>You&apos;re on the list.</strong>
-              <span>See you August 8.</span>
+              <span>See you at the shop.</span>
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
@@ -383,18 +373,10 @@ function Visit() {
                   {submitting ? 'Joining…' : 'Subscribe'}
                 </button>
               </div>
-              <p>Opening-day details and occasional store updates. Unsubscribe anytime.</p>
+              <p>New drops, pop-up events, and the occasional deal. Unsubscribe anytime.</p>
               {formError ? <p className="form-error" role="alert">{formError}</p> : null}
             </form>
           )}
-          <div className="calendar-links" aria-label="Add opening day to a calendar">
-            <a className="calendar-link" href="/vibe-opening-day.ics">
-              Add to Apple Calendar <ArrowIcon />
-            </a>
-            <a className="calendar-link" href={GOOGLE_CALENDAR_URL}>
-              Add to Google Calendar <ArrowIcon />
-            </a>
-          </div>
         </div>
       </div>
       <figure className="visit__strip">
@@ -427,6 +409,7 @@ function Footer({ innerPage = false }) {
           </a>
           <a href="tel: +19415004112">(941) 500-4112</a>
           <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
+          <Hours variant="footer" />
         </address>
         <p className="footer__copyright">© 2026 Vibe Smoke &amp; Supply Co.</p>
       </div>
@@ -638,7 +621,7 @@ function SupportPage() {
               <div className="short-rule" />
               <h1>We&apos;re here to help.</h1>
               <p>
-                Questions about the store, opening day, or a product? Reach out to the Vibe team.
+                Questions about the store, hours, or a product? Reach out to the Vibe team.
               </p>
               <a className="button button--coral" href="mailto:vibesupplypg@gmail.com">Email support</a>
             </div>
@@ -650,6 +633,7 @@ function SupportPage() {
                 <a href={MAPS_URL} target="_blank" rel="noreferrer">
                   5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982
                 </a>
+                <Hours variant="support" />
               </address>
               <p>
                 For faster help, include your name, question, and the product details you have.
@@ -661,8 +645,8 @@ function SupportPage() {
             <h2 id="support-faq-title">Good to know.</h2>
             <div className="support-faq__items">
               <article>
-                <h3>When do you open?</h3>
-                <p>Opening day is August 8, 2026.</p>
+                <h3>What are your hours?</h3>
+                <p>Mon – Thu 10am – 10pm, Fri – Sat 10am – 11pm, Sunday 10am – 6pm.</p>
               </article>
               <article>
                 <h3>Where are you?</h3>
@@ -710,7 +694,7 @@ export default function App() {
       ? 'Food trucks, makers, artists, and pop-up shops can request to collaborate at Vibe Smoke & Supply Co events in Punta Gorda, Florida.'
       : isSupportPage
         ? 'Contact Vibe Smoke & Supply Co support by email or phone, or visit us at 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982.'
-        : 'Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop at 5260 Duncan Rd, Unit 3, Punta Gorda, Florida. Opening August 8, 2026. Adults 21+ only.'
+        : 'Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop at 5260 Duncan Rd, Unit 3, Punta Gorda, Florida. Now open seven days a week. Adults 21+ only.'
     const pageUrl = isCollaboratePage
       ? 'https://www.vibesupplyco.org/collaborate'
       : isSupportPage

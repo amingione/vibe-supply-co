@@ -11,7 +11,7 @@ This file is the canonical setup reference for business listings, social profile
 | Positioning | Veteran-owned neighborhood smoke, vape, and supply shop for adults 21+ |
 | Primary tagline | Punta Gorda's New Vibe. |
 | Supporting line | Built for locals. Stocked right. |
-| Opening date | August 8, 2026 |
+| Opened | August 8, 2026 (now open) |
 | Age requirement | Adults 21+ only; valid ID required |
 | Website | https://www.vibesupplyco.org/ |
 | Support page | https://www.vibesupplyco.org/support |
@@ -73,6 +73,22 @@ https://www.vibesupplyco.org/support
 
 https://www.google.com/maps/search/?api=1&query=5260%20Duncan%20Rd%20Unit%203%2C%20Punta%20Gorda%2C%20FL%2033982
 
+### Canonical hours
+
+Confirmed by ownership. Use these exact hours on every listing, profile, and page.
+
+| Days | Hours | 24-hour (for listing forms) |
+| --- | --- | --- |
+| Monday – Thursday | 10am – 10pm | 10:00 – 22:00 |
+| Friday – Saturday | 10am – 11pm | 10:00 – 23:00 |
+| Sunday | 10am – 6pm | 10:00 – 18:00 |
+
+**One-line display**
+
+Mon–Thu 10am–10pm · Fri–Sat 10am–11pm · Sun 10am–6pm
+
+Open seven days a week. Holiday or special hours must be set as listing overrides, not by editing the regular hours above.
+
 ## Brand positioning and voice
 
 ### One-sentence brand summary
@@ -123,13 +139,13 @@ Vibe Smoke & Supply Co is a veteran-owned neighborhood shop bringing a clean, co
 | Address | 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982 |
 | Phone | (941) 500-4112 |
 | Website | https://www.vibesupplyco.org/ |
-| Opening date | August 8, 2026 |
+| Opened | August 8, 2026 (now open) |
 | Service model | In-store shopping; no service area unless delivery is actually offered |
 | Business attribute | Veteran-owned, if the attribute is available in the account |
 
 ### Business description
 
-Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop in Punta Gorda, Florida, serving adults 21 and older. Our clean, comfortable neighborhood store carries vape devices and e-liquids, glass, papers, smoke accessories, cases, cleanup essentials, cold drinks, and quick-grab items. Expect friendly help, no pressure, and a thoughtfully selected lineup for locals. Find us at 5260 Duncan Rd, Unit 3. Opening August 8, 2026.
+Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop in Punta Gorda, Florida, serving adults 21 and older. Our clean, comfortable neighborhood store carries vape devices and e-liquids, glass, papers, smoke accessories, cases, cleanup essentials, cold drinks, and quick-grab items. Expect friendly help, no pressure, and a thoughtfully selected lineup for locals. Find us at 5260 Duncan Rd, Unit 3, open seven days a week.
 
 ### Products and services to add
 
@@ -145,12 +161,16 @@ Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop in Punta 
 
 ### Profile setup checklist
 
+**Status: live.** The Google Business Profile is published and carries the canonical hours and
+now-open wording as of August 25, 2026. Treat the list below as the spec to check against, not
+as outstanding work.
+
 - Place the map pin on the entrance for Unit 3, not merely at the center of the property.
 - Add the logo as the profile image and a wide storefront image as the cover.
 - Upload exterior, entrance, interior, counter, category, and parking/arrival photos.
-- Add regular hours only after ownership confirms them. Do not guess.
-- Add special opening-day hours once confirmed.
-- Add the opening date and use “Opening August 8” before launch; change posts to “Now open” after launch.
+- Add the confirmed regular hours from **Canonical hours** above; do not guess or improvise.
+- Add holiday or special hours as dated overrides, leaving the regular hours intact.
+- Use “Now open” in posts and the profile short description; the August 8, 2026 opening date stays only as the opened-on date.
 - Enable calls and website visits.
 - Add social profile links after the handles are secured.
 - Confirm the profile using the verification method Google offers for this location.
@@ -169,24 +189,28 @@ Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop in Punta 
 | Email | vibesupplypg@gmail.com |
 | Phone | (941) 500-4112 |
 | Address | 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982 |
-| Recommended action button | Learn More linked to the website; switch to Call Now after opening if calls are staffed |
+| Recommended action button | Call Now linked to (941) 500-4112; the phone is staffed during all open hours |
 
 ### Facebook bio
 
-Veteran-owned smoke, vape & supply shop in Punta Gorda. Opening Aug 8. Adults 21+.
+Veteran-owned smoke, vape & supply shop in Punta Gorda. Open 7 days. Adults 21+.
 
 ### Facebook About description
 
-Punta Gorda's new neighborhood smoke, vape, and supply shop. Vibe Smoke & Supply Co is veteran-owned and built around a clean, comfortable store experience, friendly help, and a considered lineup of essentials for adults 21+. Opening August 8, 2026, at 5260 Duncan Rd, Unit 3.
+Punta Gorda's new neighborhood smoke, vape, and supply shop. Vibe Smoke & Supply Co is veteran-owned and built around a clean, comfortable store experience, friendly help, and a considered lineup of essentials for adults 21+. Open seven days a week at 5260 Duncan Rd, Unit 3.
 
 ### Page setup checklist
 
+**Status: live.** The Facebook Page is published and carries the canonical hours and now-open
+wording as of August 25, 2026. Treat the list below as the spec to check against, not as
+outstanding work.
+
 - Use the full logo as the profile image.
-- Use a storefront or interior image with “Opening August 8” as the launch cover.
+- Use a storefront or interior image with the current hours as the cover.
 - Add the canonical NAP, website, and company Gmail exactly as written above.
 - Set age restrictions appropriate for an adults-only tobacco/vape business.
-- Add hours only after they are confirmed.
-- Pin an opening announcement with the address, date, directions link, and 21+ language.
+- Add the confirmed regular hours from **Canonical hours** above.
+- Pin a now-open post with the address, hours, directions link, and 21+ language.
 
 ## Instagram
 
@@ -208,7 +232,7 @@ Punta Gorda's new neighborhood smoke, vape, and supply shop. Vibe Smoke & Supply
 
 Veteran-owned smoke, vape & supply shop 🌴<br>
 Punta Gorda, FL<br>
-Opening Aug 8 • Adults 21+<br>
+Open 7 Days • Adults 21+<br>
 ↓ Updates & directions
 
 ### Instagram setup checklist
@@ -235,13 +259,13 @@ Opening Aug 8 • Adults 21+<br>
 
 ### TikTok bio
 
-Punta Gorda's new vibe. Veteran-owned. Opening Aug 8. Adults 21+.
+Punta Gorda's new vibe. Veteran-owned. Open 7 days. Adults 21+.
 
 ### TikTok setup checklist
 
 - Use the same logo and handle as Instagram whenever available.
 - Link the website and Instagram profile.
-- Focus launch content on the storefront, build-out, team, location, opening countdown, and adult customer experience.
+- Focus content on the storefront, team, location, hours, in-store lineup, vendor pop-ups, and adult customer experience.
 - Do not target or depict minors, make health claims, or publish how-to-use content that could violate tobacco/vape platform rules.
 
 ## Visual identity reference
@@ -270,13 +294,11 @@ Punta Gorda's new vibe. Veteran-owned. Opening Aug 8. Adults 21+.
 5. Use `https://www.vibesupplyco.org/` as the canonical website URL.
 6. Use @vibesupplypg as the first-choice handle across platforms.
 7. Keep `Adults 21+` visible in every profile bio or About section.
-8. Do not publish business hours until they are confirmed by ownership.
+8. Publish the **Canonical hours** exactly as written; update this file first if hours ever change.
 
 ## Information still needed from ownership
 
-- Regular business hours and opening-day hours.
 - Exact legal entity name, if different from the public brand name.
-- Confirmed Google/Facebook categories available during setup.
 - Parking and entrance instructions for Unit 3.
 - Whether delivery, curbside pickup, or online ordering will be offered.
 - Final social handles and profile URLs after registration.

@@ -15,13 +15,20 @@ The regular Vite server renders the site, but the Resend signup endpoint runs as
 
 ## Resend and Vercel
 
-The opening-updates form creates or updates a Resend contact and opts that contact into the public **Vibe Opening Updates** topic.
+The store-updates form creates or updates a Resend contact and opts that contact into the public
+**Vibe Store Updates** topic. The topic's name and description live in Resend, not in this repo, and
+subscribers see both on the preference and unsubscribe pages — change them there, not here.
+
+`RESEND_TOPIC_ID` must match a topic that actually exists in the Resend account the API key belongs
+to. It drifted once: the committed fallback pointed at a deleted topic while production set no
+override, so every signup hit an ID that returned 404. If you rebuild the topic, update the Vercel
+env var and the fallback in `api/subscribe.js` together.
 New-signup admin notifications include the canonical Vibe support email, phone, and postal address.
 
 Add these Environment Variables to the Vercel project for Production, Preview, and Development:
 
 - `RESEND_API_KEY` — a full-access key from the FAS Motorsports Resend account (required)
-- `RESEND_TOPIC_ID` — `4dfe54d9-ffe7-4266-b722-5225b6c06f43`
+- `RESEND_TOPIC_ID` — `63f281c0-b99e-4a94-9840-d4f2613d5778`
 - `RESEND_NOTIFY_EMAIL` — `vibesupplypg@gmail.com` to receive private signup notices (optional)
 - `RESEND_FROM_EMAIL` — `Vibe Website <website@updates.fasmotorsports.com>` (optional)
 

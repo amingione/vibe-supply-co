@@ -1,6 +1,6 @@
 import { Resend } from 'resend'
 
-const VIBE_TOPIC_ID = '4dfe54d9-ffe7-4266-b722-5225b6c06f43'
+const VIBE_TOPIC_ID = '63f281c0-b99e-4a94-9840-d4f2613d5778'
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
 const RATE_LIMIT_MAX = 5
 const attempts = new Map()
@@ -105,8 +105,8 @@ export default async function handler(request, response) {
           from: process.env.RESEND_FROM_EMAIL || 'Vibe Website <website@updates.fasmotorsports.com>',
           to: [notifyEmail],
           replyTo: email,
-          subject: 'New Vibe opening update signup',
-          text: `${email} subscribed to Vibe Opening Updates.\n\n${BUSINESS_CONTACT}`,
+          subject: 'New Vibe subscriber',
+          text: `${email} subscribed to Vibe store updates.\n\n${BUSINESS_CONTACT}`,
           tags: [{ name: 'source', value: 'vibe-opening-site' }],
         },
         { idempotencyKey: `vibe-signup-notice/${contactId}` },
