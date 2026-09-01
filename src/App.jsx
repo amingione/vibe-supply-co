@@ -136,7 +136,7 @@ function Hero() {
           <div className="short-rule" />
           <p>Smoke, vape, and everyday essentials—curated for the coast. Open seven days a week.</p>
           <div className="hero__actions">
-            <a className="button button--coral" href="tel: +19415004112">Call (941) 500-4112</a>
+            <a className="button button--coral" href="tel: +19412862750">Call (941) 286-2750</a>
             <a className="text-link text-link--aqua" href="#visit">
               Plan your visit <ArrowIcon />
             </a>
@@ -334,12 +334,15 @@ function Visit() {
             <a href={MAPS_URL} target="_blank" rel="noreferrer">
               5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982
             </a>
-            <a href="tel: +19415004112">(941) 500-4112</a>
+            <a href="tel: +19412862750">(941) 286-2750</a>
             <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
           </address>
           <div className="visit__hours">
             <h3>Store hours</h3>
             <Hours />
+            <p className="visit__after-hours">
+              After hours or in an emergency, call <a href="tel: +19415004112">(941) 500-4112</a>.
+            </p>
           </div>
           <StoreStatus />
         </div>
@@ -407,7 +410,7 @@ function Footer({ innerPage = false }) {
             <PinIcon />
             <span>5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982</span>
           </a>
-          <a href="tel: +19415004112">(941) 500-4112</a>
+          <a href="tel: +19412862750">(941) 286-2750</a>
           <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
           <Hours variant="footer" />
         </address>
@@ -629,11 +632,14 @@ function SupportPage() {
               <h2 id="support-contact-title">Vibe support</h2>
               <address>
                 <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
-                <a href="tel: +19415004112">(941) 500-4112</a>
+                <a href="tel: +19412862750">(941) 286-2750</a>
                 <a href={MAPS_URL} target="_blank" rel="noreferrer">
                   5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982
                 </a>
                 <Hours variant="support" />
+                <p className="visit__after-hours">
+                  After hours or in an emergency, call <a href="tel: +19415004112">(941) 500-4112</a>.
+                </p>
               </address>
               <p>
                 For faster help, include your name, question, and the product details you have.
