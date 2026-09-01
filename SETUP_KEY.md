@@ -16,7 +16,8 @@ This file is the canonical setup reference for business listings, social profile
 | Website | https://www.vibesupplyco.org/ |
 | Support page | https://www.vibesupplyco.org/support |
 | Primary public email | vibesupplypg@gmail.com |
-| Primary phone | (941) 500-4112 |
+| Primary phone | (941) 286-2750 |
+| After-hours / emergency phone | (941) 500-4112 |
 | Preferred social handle | @vibesupplypg |
 
 ### Canonical NAP
@@ -43,13 +44,25 @@ PUNTA GORDA FL 33982
 
 **Phone — public display**
 
-(941) 500-4112
+(941) 286-2750
 
 **Phone — E.164/API format**
 
- +19415004112
+ +19412862750
 
 **Phone link**
+
+`tel: +19412862750`
+
+**After-hours / emergency phone — public display**
+
+(941) 500-4112
+
+**After-hours / emergency phone — E.164/API format**
+
+ +19415004112
+
+**After-hours / emergency phone link**
 
 `tel: +19415004112`
 
@@ -137,7 +150,7 @@ Vibe Smoke & Supply Co is a veteran-owned neighborhood shop bringing a clean, co
 | Recommended additional category | Vaporizer store |
 | Optional additional category | Convenience store — use only if convenience goods are a meaningful part of the store |
 | Address | 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982 |
-| Phone | (941) 500-4112 |
+| Phone | (941) 286-2750 |
 | Website | https://www.vibesupplyco.org/ |
 | Opened | August 8, 2026 (now open) |
 | Service model | In-store shopping; no service area unless delivery is actually offered |
@@ -187,9 +200,9 @@ as outstanding work.
 | Additional category | Shopping & Retail |
 | Website | https://www.vibesupplyco.org/ |
 | Email | vibesupplypg@gmail.com |
-| Phone | (941) 500-4112 |
+| Phone | (941) 286-2750 |
 | Address | 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982 |
-| Recommended action button | Call Now linked to (941) 500-4112; the phone is staffed during all open hours |
+| Recommended action button | Call Now linked to (941) 286-2750; the phone is staffed during all open hours. After-hours/emergency calls route to (941) 500-4112. |
 
 ### Facebook bio
 
@@ -225,7 +238,7 @@ outstanding work.
 | Category | Shopping & retail or Tobacco Store, depending on available choices |
 | Link | https://www.vibesupplyco.org/ |
 | Public email | vibesupplypg@gmail.com |
-| Public phone | (941) 500-4112 |
+| Public phone | (941) 286-2750 |
 | Public address | 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982 |
 
 ### Instagram bio
@@ -289,7 +302,7 @@ Punta Gorda's new vibe. Veteran-owned. Open 7 days. Adults 21+.
 
 1. Use `Vibe Smoke & Supply Co` exactly; do not add a period after `Co` in listing names.
 2. Use `5260 Duncan Rd, Unit 3` everywhere; do not substitute `Suite 3` or `#3`.
-3. Display the phone as `(941) 500-4112`; use ` +19415004112` only in technical fields.
+3. Display the phone as `(941) 286-2750`; use ` +19412862750` only in technical fields. Use `(941) 500-4112` only where a listing has a distinct after-hours/emergency phone field.
 4. Use `vibesupplypg@gmail.com` in lowercase.
 5. Use `https://www.vibesupplyco.org/` as the canonical website URL.
 6. Use @vibesupplypg as the first-choice handle across platforms.

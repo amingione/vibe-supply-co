@@ -9,7 +9,7 @@ const BUSINESS_CONTACT = [
   '5260 Duncan Rd, Unit 3',
   'Punta Gorda, FL 33982',
   'Support: vibesupplypg@gmail.com',
-  'Phone: (941) 500-4112',
+  'Phone: (941) 286-2750',
 ].join('\n')
 
 function getClientIp(request) {
