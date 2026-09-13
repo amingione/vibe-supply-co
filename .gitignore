@@ -6,3 +6,4 @@ dist/
 .design/
 .env*
 !.env.example
+.vercel

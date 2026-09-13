@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
+import StoreLocatorMap from './StoreLocatorMap'
 import { STORE_HOURS, getStoreStatus } from './storeHours'
-
-const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=5260%20Duncan%20Rd%20Unit%203%2C%20Punta%20Gorda%2C%20FL%2033982'
+import { MAPS_URL } from './storeLocation'
 
 const tumblers = [
   { name: 'Mint', src: '/products/vibe-tumbler-mint.jpg' },
@@ -381,6 +381,10 @@ function Visit() {
             </form>
           )}
         </div>
+      </div>
+      <div className="visit__map reveal" id="map">
+        <h3>Find us</h3>
+        <StoreLocatorMap />
       </div>
       <figure className="visit__strip">
         <img src="/assets/shop-exterior.jpg" alt="Warm shop windows glowing at blue hour" />
