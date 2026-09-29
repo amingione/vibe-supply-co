@@ -245,7 +245,7 @@ a {
 
 .hero__copy {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(15rem, 1fr);
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   column-gap: clamp(1rem, 3vw, 3rem);
 }
@@ -262,10 +262,10 @@ a {
   display: grid;
   place-items: center;
   justify-self: end;
-  width: clamp(15rem, 23vw, 21rem);
+  width: clamp(27rem, 32vw, 32rem);
   max-width: 100%;
   aspect-ratio: 1;
-  padding: 4.5rem 2.8rem;
+  padding: 5rem 4rem;
   color: var(--paper);
   font-size: clamp(0.8rem, 1vw, 1rem);
   line-height: 1.5;
@@ -2199,7 +2199,6 @@ body:has(.daily-banner) .store-status-tab {
   }
 
   .hero-store-details {
-    width: clamp(16rem, 38vw, 22rem);
     font-size: clamp(0.8rem, 1.7vw, 1rem);
   }
 
