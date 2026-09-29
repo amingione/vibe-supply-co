@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import StoreLocatorMap from './StoreLocatorMap'
+import { StoreDirections } from './StoreLocatorMap'
+import ShopUpdates, { CalendarBanner, DailyBanner, OctoberMerchOffer } from './ShopUpdates'
 import { STORE_HOURS, getStoreStatus } from './storeHours'
-import { MAPS_URL } from './storeLocation'
+import { MAPS_URL, STORE } from './storeLocation'
 
 const tumblers = [
   { name: 'Mint', src: '/products/vibe-tumbler-mint.jpg' },
@@ -95,7 +96,12 @@ function Header({ innerPage = false }) {
   const closeMenu = () => setOpen(false)
 
   return (
-    <header className="site-header">
+    <header className="site-header" onKeyDown={(event) => {
+      if (event.key === 'Escape' && open) {
+        closeMenu()
+        event.currentTarget.querySelector('.menu-toggle')?.focus()
+      }
+    }}>
       <Wordmark href={innerPage ? '/' : '#top'} />
       <button
         className="menu-toggle"
@@ -112,6 +118,7 @@ function Header({ innerPage = false }) {
       <nav id="site-nav" className={`site-nav ${open ? 'site-nav--open' : ''}`} aria-label="Main navigation">
         <a href={innerPage ? '/#shop' : '#shop'} onClick={closeMenu}>The Shop</a>
         <a href={innerPage ? '/#in-store' : '#in-store'} onClick={closeMenu}>What&apos;s In Store</a>
+        <a href={innerPage ? '/#little-finds' : '#little-finds'} onClick={closeMenu}>Little Finds</a>
         <a href={innerPage ? '/#visit' : '#visit'} onClick={closeMenu}>Visit</a>
         <a href="/collaborate" onClick={closeMenu}>Collaborate</a>
         <a href="/support" onClick={closeMenu}>Support</a>
@@ -121,19 +128,91 @@ function Header({ innerPage = false }) {
   )
 }
 
+function MobileNavigation({ innerPage = false }) {
+  const [active, setActive] = useState(innerPage ? '' : 'top')
+
+  useEffect(() => {
+    if (innerPage) return
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting)
+      if (visible.length) {
+        const id = visible[0].target.id
+        setActive(id === 'little-finds' || id === 'visit' ? id : 'top')
+      }
+    }, { rootMargin: '-10% 0px -55% 0px', threshold: 0 })
+    for (const id of ['top', 'little-finds', 'shop', 'in-store', 'tumblers', 'visit']) {
+      const section = document.getElementById(id)
+      if (section) observer.observe(section)
+    }
+    return () => observer.disconnect()
+  }, [innerPage])
+
+  const items = [
+    { id: 'top', label: 'Home', path: 'M3 10 12 3l9 7M5 9v12h5v-7h4v7h5V9' },
+    { id: 'little-finds', label: 'Finds', path: 'M3 8h18v4H3zM5 12v9h14v-9M12 8v13M12 8C7 8 5 6 6 4c2-3 6 1 6 4Zm0 0c5 0 7-2 6-4-2-3-6 1-6 4Z' },
+    { id: 'visit', label: 'Visit', path: 'M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0ZM15 10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z' },
+    { id: 'call', label: 'Call', path: 'm7 3 3 5-3 2c1 3 4 6 7 7l2-3 5 3c-1 5-5 5-9 3C6 17 2 11 3 6c0-2 2-3 4-3Z' },
+  ]
+
+  return (
+    <nav className="mobile-nav" aria-label="Quick navigation">
+      {items.map(({ id, label, path }) => (
+        <a
+          key={id}
+          href={id === 'call' ? 'tel:+19412862750' : `${innerPage ? '/' : ''}#${id}`}
+          aria-current={active === id ? 'location' : undefined}
+          onClick={() => { if (id !== 'call') setActive(id) }}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d={path} /></svg>
+          <span>{label}</span>
+        </a>
+      ))}
+    </nav>
+  )
+}
+
+function HeroStoreDetails() {
+  return (
+    <aside className="hero-store-details" id="visit" aria-label="Store address, contact, and hours">
+      <div className="hero-store-details__content">
+        <address>
+          <a className="hero-store-details__address" href={MAPS_URL} target="_blank" rel="noreferrer">
+            <PinIcon />
+            <span>{STORE.address1}<br />{STORE.address2}</span>
+          </a>
+          <a href="tel:+19412862750">(941) 286-2750</a>
+          <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
+        </address>
+        <Hours variant="hero" />
+        <StoreDirections compact />
+      </div>
+    </aside>
+  )
+}
+
 function Hero() {
   return (
     <section className="hero" id="top">
+      <DailyBanner />
       <Header />
+      <CalendarBanner />
+      <StoreStatus />
       <div className="hero__grid">
         <div className="hero__copy">
-          <h1>
-            <span className="hero__word hero__word--navy">Punta</span>
-            <span className="hero__word hero__word--navy">Gorda&apos;s</span>
-            <span className="hero__word hero__word--orange">New</span>
-            <span className="hero__word hero__word--aqua">Vibe.</span>
-          </h1>
-          <div className="short-rule" />
+          <div className="hero__headline">
+            <h1 aria-label="Punta Gorda's new vibe.">
+              <span className="hero__line">
+                <span className="hero__word hero__word--navy">Punta</span>
+                <span className="hero__word hero__word--navy">Gorda&apos;s</span>
+              </span>
+              <span className="hero__line">
+                <span className="hero__word hero__word--orange">New</span>
+                <span className="hero__word hero__word--aqua">Vibe.</span>
+              </span>
+            </h1>
+            <div className="short-rule" />
+          </div>
+          <HeroStoreDetails />
           <p>Smoke, vape, and everyday essentials—curated for the coast. Open seven days a week.</p>
           <div className="hero__actions">
             <a className="button button--coral" href="tel: +19412862750">Call (941) 286-2750</a>
@@ -213,6 +292,7 @@ function Tumblers() {
           <p>
             Vibe tumblers in four standout colors. Pick your favorite in store while supplies last.
           </p>
+          <OctoberMerchOffer />
           <a className="button button--coral" href="#visit">Find them in store</a>
         </div>
         <figure className="tumblers__group reveal reveal--delay">
@@ -262,17 +342,55 @@ function CollaborationTeaser() {
 
 function StoreStatus() {
   const [status, setStatus] = useState(getStoreStatus)
+  const [tabVisible, setTabVisible] = useState(false)
+  const inlineStatus = useRef(null)
 
   useEffect(() => {
-    const timer = window.setInterval(() => setStatus(getStoreStatus()), 60000)
-    return () => window.clearInterval(timer)
+    const refresh = () => setStatus(getStoreStatus())
+    const timer = window.setInterval(refresh, 60000)
+    window.addEventListener('focus', refresh)
+    return () => {
+      window.clearInterval(timer)
+      window.removeEventListener('focus', refresh)
+    }
+  }, [])
+
+  useEffect(() => {
+    let idleTimer
+    const onScroll = () => {
+      setTabVisible(false)
+      window.clearTimeout(idleTimer)
+      idleTimer = window.setTimeout(() => {
+        const bannerBottom = document.querySelector('.daily-banner')?.getBoundingClientRect().bottom ?? 0
+        setTabVisible((inlineStatus.current?.getBoundingClientRect().bottom ?? Infinity) < bannerBottom)
+      }, 350)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    onScroll()
+    return () => {
+      window.clearTimeout(idleTimer)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [])
 
   return (
-    <div className={`store-status ${status.isOpen ? 'store-status--open' : 'store-status--closed'}`}>
-      <p className="store-status__headline">{status.headline}</p>
-      <p className="store-status__detail" role="status">{status.detail}</p>
-    </div>
+    <>
+      <div ref={inlineStatus} className={`store-status store-status--hero ${status.isOpen ? 'store-status--open' : 'store-status--closed'}`}>
+        <p className="store-status__headline">{status.headline}</p>
+        <p className="store-status__detail" role="status">{status.detail}</p>
+      </div>
+      <a
+        className={`store-status-tab${tabVisible ? ' store-status-tab--visible' : ''}`}
+        href="#visit"
+        aria-hidden={!tabVisible}
+        tabIndex={tabVisible ? 0 : -1}
+      >
+        <strong>{status.headline}</strong>
+        <span className="sr-only">{status.detail}</span>
+      </a>
+    </>
   )
 }
 
@@ -289,7 +407,7 @@ function Hours({ variant = '' }) {
   )
 }
 
-function Visit() {
+function FooterSignup() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -325,7 +443,49 @@ function Visit() {
   }
 
   return (
-    <section className="visit" id="visit">
+    <section className="footer-signup" aria-labelledby="footer-signup-title">
+      <div className="updates" id="updates">
+        <h2 id="footer-signup-title">In the loop <ArrowIcon /></h2>
+        {submitted ? (
+          <div className="form-success" role="status">
+            <strong>You&apos;re on the list.</strong>
+            <span>See you at the shop.</span>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="email">Email address</label>
+            <div className="form-honeypot" aria-hidden="true">
+              <label htmlFor="company">Company</label>
+              <input id="company" name="company" type="text" tabIndex="-1" autoComplete="off" />
+            </div>
+            <div className="form-row">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="Email address"
+                autoComplete="email"
+                required
+                disabled={submitting}
+              />
+              <button type="submit" disabled={submitting}>
+                {submitting ? 'Joining…' : 'Subscribe'}
+              </button>
+            </div>
+            <p>New drops, pop-up events, and the occasional deal. Unsubscribe anytime.</p>
+            {formError ? <p className="form-error" role="alert">{formError}</p> : null}
+          </form>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function Visit() {
+  return (
+    <section className="visit visit--summary">
       <div className="visit__grid">
         <div className="visit__date reveal">
           <h2>Pull up today.</h2>
@@ -334,91 +494,50 @@ function Visit() {
             <a href={MAPS_URL} target="_blank" rel="noreferrer">
               5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982
             </a>
-            <a href="tel: +19412862750">(941) 286-2750</a>
+            <a href="tel:+19412862750">(941) 286-2750</a>
             <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
           </address>
-          <div className="visit__hours">
-            <h3>Store hours</h3>
-            <Hours />
-            <p className="visit__after-hours">
-              After hours or in an emergency, call <a href="tel: +19415004112">(941) 500-4112</a>.
-            </p>
-          </div>
-          <StoreStatus />
         </div>
-        <div className="updates reveal reveal--delay" id="updates">
-          <h3>In the loop <ArrowIcon /></h3>
-          {submitted ? (
-            <div className="form-success" role="status">
-              <strong>You&apos;re on the list.</strong>
-              <span>See you at the shop.</span>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="email">Email address</label>
-              <div className="form-honeypot" aria-hidden="true">
-                <label htmlFor="company">Company</label>
-                <input id="company" name="company" type="text" tabIndex="-1" autoComplete="off" />
-              </div>
-              <div className="form-row">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder="Email address"
-                  autoComplete="email"
-                  required
-                  disabled={submitting}
-                />
-                <button type="submit" disabled={submitting}>
-                  {submitting ? 'Joining…' : 'Subscribe'}
-                </button>
-              </div>
-              <p>New drops, pop-up events, and the occasional deal. Unsubscribe anytime.</p>
-              {formError ? <p className="form-error" role="alert">{formError}</p> : null}
-            </form>
-          )}
-        </div>
+        <figure className="visit__strip">
+          <img src="/assets/shop-exterior.jpg" alt="Warm shop windows glowing at blue hour" loading="lazy" />
+        </figure>
       </div>
-      <div className="visit__map reveal" id="map">
-        <h3>Find us</h3>
-        <StoreLocatorMap />
-      </div>
-      <figure className="visit__strip">
-        <img src="/assets/shop-exterior.jpg" alt="Warm shop windows glowing at blue hour" />
-      </figure>
     </section>
   )
 }
 
 function Footer({ innerPage = false }) {
   return (
-    <footer className="footer">
-      <div className="footer__brand">
-        <Wordmark footer href={innerPage ? '/' : '#top'} />
-        <strong>Veteran owned. Punta Gorda proud.</strong>
-        <p>Adults 21+ only. Please enjoy responsibly.</p>
-      </div>
-      <div className="footer__links">
-        <nav aria-label="Footer navigation">
-          <a href={innerPage ? '/#shop' : '#shop'}>The Shop</a>
-          <a href={innerPage ? '/#in-store' : '#in-store'}>What&apos;s In Store</a>
-          <a href={innerPage ? '/#visit' : '#visit'}>Visit</a>
-          <a href="/collaborate">Collaborate</a>
-          <a href="/support">Support</a>
-        </nav>
-        <address className="footer__nap">
-          <a className="footer__location" href={MAPS_URL} target="_blank" rel="noreferrer">
-            <PinIcon />
-            <span>5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982</span>
-          </a>
-          <a href="tel: +19412862750">(941) 286-2750</a>
-          <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
-          <Hours variant="footer" />
-        </address>
-        <p className="footer__copyright">© 2026 Vibe Smoke &amp; Supply Co.</p>
+    <footer className="site-footer">
+      <FooterSignup />
+      <div className="footer">
+        <div className="footer__brand">
+          <Wordmark footer href={innerPage ? '/' : '#top'} />
+          <strong>Veteran owned. Punta Gorda proud.</strong>
+          <p>Adults 21+ only. Please enjoy responsibly.</p>
+        </div>
+        <div className="footer__links">
+          <nav aria-label="Footer navigation">
+            <a href={innerPage ? '/#shop' : '#shop'}>The Shop</a>
+            <a href={innerPage ? '/#in-store' : '#in-store'}>What&apos;s In Store</a>
+            <a href={innerPage ? '/#visit' : '#visit'}>Visit</a>
+            <a href="/collaborate">Collaborate</a>
+            <a href="/support">Support</a>
+          </nav>
+          <address className="footer__nap">
+            <a className="footer__location" href={MAPS_URL} target="_blank" rel="noreferrer">
+              <PinIcon />
+              <span>5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982</span>
+            </a>
+            <a href="tel: +19412862750">(941) 286-2750</a>
+            <a href="mailto:vibesupplypg@gmail.com">vibesupplypg@gmail.com</a>
+            <Hours variant="footer" />
+            <p className="footer__after-hours">
+              After hours or in an emergency, call <a href="tel:+19415004112">(941) 500-4112</a>.
+            </p>
+          </address>
+          <p className="footer__copyright">© 2026 Vibe Smoke &amp; Supply Co.</p>
+        </div>
       </div>
     </footer>
   )
@@ -641,9 +760,6 @@ function SupportPage() {
                   5260 Duncan Rd, Unit 3<br />Punta Gorda, FL 33982
                 </a>
                 <Hours variant="support" />
-                <p className="visit__after-hours">
-                  After hours or in an emergency, call <a href="tel: +19415004112">(941) 500-4112</a>.
-                </p>
               </address>
               <p>
                 For faster help, include your name, question, and the product details you have.
@@ -719,14 +835,15 @@ export default function App() {
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', pageUrl)
   }, [isCollaboratePage, isSupportPage])
 
-  if (isCollaboratePage) return <CollaboratePage />
-  if (isSupportPage) return <SupportPage />
+  if (isCollaboratePage) return <><CollaboratePage /><MobileNavigation innerPage /></>
+  if (isSupportPage) return <><SupportPage /><MobileNavigation innerPage /></>
 
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>
       <main id="main-content">
         <Hero />
+        <ShopUpdates />
         <Story />
         <ProductRail />
         <Tumblers />
@@ -734,6 +851,7 @@ export default function App() {
         <Visit />
       </main>
       <Footer />
+      <MobileNavigation />
     </>
   )
 }

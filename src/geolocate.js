@@ -124,11 +124,11 @@ export function geolocationMessage(reason) {
     case 'unsupported':
       return 'Location services are not available in this browser.'
     case 'denied':
-      return 'Location access was declined. Enter your address in the map instead.'
+      return 'Location access was declined. Use Get directions to enter your starting point.'
     case 'timeout':
-      return 'Finding your location took too long. Try again or enter your address in the map.'
+      return 'Finding your location took too long. Try again or use Get directions.'
     default:
-      return 'We could not determine your location. Enter your address in the map instead.'
+      return 'We could not determine your location. Use Get directions to enter your starting point.'
   }
 }
 

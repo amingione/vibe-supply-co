@@ -53,24 +53,6 @@ export default function StoreLocatorMap() {
   const rootRef = useRef(null)
   const locatorRef = useRef(null)
   const [state, setState] = useState(MAPS_API_KEY ? 'idle' : 'no-key')
-  const [directionsHref, setDirectionsHref] = useState(DIRECTIONS_URL)
-  const [route, setRoute] = useState({ state: 'idle', message: STORE_ADDRESS_ONE_LINE })
-  const [geoSupported, setGeoSupported] = useState(true)
-
-  async function useMyLocation() {
-    setRoute({ state: 'loading', message: 'Finding your current location…' })
-    try {
-      const origin = await getCurrentPosition()
-      setDirectionsHref(withOrigin(DIRECTIONS_URL, origin))
-      setRoute({ state: 'loading', message: 'Calculating the drive from your location…' })
-      const estimate = await estimateDrive(origin, { coords: STORE_LOCATION.coords, placeId: STORE_LOCATION.placeId })
-      setRoute({ state: 'success', message: formatDriveEstimate(estimate, 'your location') })
-    } catch (error) {
-      const reason = error instanceof GeolocationError ? error.reason : 'unavailable'
-      if (reason === 'unsupported') setGeoSupported(false)
-      setRoute({ state: 'error', message: geolocationMessage(reason) })
-    }
-  }
 
   useEffect(() => {
     if (!MAPS_API_KEY) return undefined
@@ -149,9 +131,32 @@ export default function StoreLocatorMap() {
           </>
         )}
       </div>
-      <p className="locator__status" data-state={route.state} role="status" aria-live="polite">
-        {route.message}
-      </p>
+      <StoreDirections />
+    </div>
+  )
+}
+
+export function StoreDirections({ compact = false }) {
+  const [directionsHref, setDirectionsHref] = useState(DIRECTIONS_URL)
+  const [route, setRoute] = useState({ state: 'idle', message: '' })
+  const [geoSupported, setGeoSupported] = useState(true)
+
+  async function useMyLocation() {
+    setRoute({ state: 'loading', message: 'Finding your current location…' })
+    try {
+      const origin = await getCurrentPosition()
+      setDirectionsHref(withOrigin(DIRECTIONS_URL, origin))
+      const estimate = await estimateDrive(origin, { coords: STORE_LOCATION.coords, placeId: STORE_LOCATION.placeId })
+      setRoute({ state: 'success', message: formatDriveEstimate(estimate, 'your location') })
+    } catch (error) {
+      const reason = error instanceof GeolocationError ? error.reason : 'unavailable'
+      if (reason === 'unsupported') setGeoSupported(false)
+      setRoute({ state: 'error', message: geolocationMessage(reason) })
+    }
+  }
+
+  return (
+    <div className={`store-directions${compact ? ' store-directions--compact' : ''}`}>
       <div className="locator__actions">
         {geoSupported ? (
           <button
@@ -176,6 +181,11 @@ export default function StoreLocatorMap() {
           </svg>
         </a>
       </div>
+      {route.state !== 'idle' && (
+        <p className="locator__status" data-state={route.state} role="status" aria-live="polite">
+          {route.message}
+        </p>
+      )}
     </div>
   )
 }

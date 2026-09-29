@@ -1,4 +1,4 @@
-const STORE_TIMEZONE = 'America/New_York'
+export const STORE_TIMEZONE = 'America/New_York'
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 // Display strings and open/close hours live together so the hours list and the
@@ -8,6 +8,24 @@ export const STORE_HOURS = [
   { days: 'Fri – Sat', time: '10am – 11pm', dayIndexes: [5, 6], opens: 10, closes: 23 },
   { days: 'Sunday', time: '10am – 6pm', dayIndexes: [0], opens: 10, closes: 18 },
 ]
+
+export function getStoreDay(now = new Date()) {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: STORE_TIMEZONE,
+    weekday: 'long',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(now)
+  const date = Object.fromEntries(parts.map(({ type, value }) => [type, value]))
+  const dayIndex = WEEKDAYS.indexOf(date.weekday)
+  return {
+    weekday: date.weekday,
+    dayIndex,
+    date: `${date.year}-${date.month}-${date.day}`,
+    hours: hoursForDay(dayIndex).time,
+  }
+}
 
 function formatHour(hour) {
   const suffix = hour >= 12 ? 'pm' : 'am'
