@@ -3366,3 +3366,31 @@ body:has(.daily-banner) .store-status-tab {
     transform: none;
   }
 }
+
+
+.coa-page {
+  width: min(100%, 70rem);
+  margin: 0 auto;
+  padding: 5rem 1rem 3rem;
+}
+
+.coa-page h1 {
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  line-height: 1;
+  margin: 1rem 0;
+  overflow-wrap: anywhere;
+}
+
+.coa-page .button {
+  margin: 1rem 0;
+}
+
+.coa-page__viewer {
+  display: block;
+  width: 100%;
+  height: 75vh;
+  min-height: 24rem;
+  border: 2px solid var(--navy);
+  background: white;
+  margin-bottom: 1rem;
+}

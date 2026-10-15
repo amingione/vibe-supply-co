@@ -12,6 +12,10 @@
     {
       "source": "/collaborate",
       "destination": "/index.html"
+    },
+    {
+      "source": "/coa/apple-fritter-hybrid",
+      "destination": "/index.html"
     }
   ]
 }

@@ -4,6 +4,12 @@ Vite/React launch site for Vibe Smoke & Supply Co., ready for Vercel.
 
 The public site includes a dedicated customer support page at `/support` with the canonical business address, phone, and email.
 
+## Certificate of Analysis
+
+`/coa/apple-fritter-hybrid` embeds COA 122 and offers a direct Open PDF link.
+Vite imports the original `docs/hemp/COA-122/COA 122 - Apple Fritter Hybrid.pdf`
+into the build, keeping one source copy. The route has a Vercel rewrite for direct visits.
+
 ## Local development
 
 ```bash

@@ -4,6 +4,7 @@ import { StoreDirections } from './StoreLocatorMap'
 import ShopUpdates, { CalendarBanner, DailyBanner, OctoberMerchOffer } from './ShopUpdates'
 import { STORE_HOURS, getStoreStatus } from './storeHours'
 import { MAPS_URL, STORE } from './storeLocation'
+import appleFritterPdf from '../docs/hemp/COA-122/COA 122 - Apple Fritter Hybrid.pdf?url'
 
 const tumblers = [
   { name: 'Mint', src: '/products/vibe-tumbler-mint.jpg' },
@@ -735,6 +736,30 @@ function CollaboratePage() {
   )
 }
 
+function CoaPage() {
+  return (
+    <>
+      <a className="skip-link" href="#coa-content">Skip to certificate</a>
+      <main className="support-page" id="top">
+        <Header innerPage />
+        <section className="coa-page" id="coa-content" aria-labelledby="coa-title">
+          <p>Certificate of Analysis · COA 122</p>
+          <h1 id="coa-title">Apple Fritter Hybrid</h1>
+          <p>View the certificate below, or open the PDF directly.</p>
+          <a className="button button--coral" href={appleFritterPdf} target="_blank" rel="noreferrer">Open PDF ↗</a>
+          <iframe
+            className="coa-page__viewer"
+            src={appleFritterPdf}
+            title="COA 122 — Apple Fritter Hybrid Certificate of Analysis"
+          />
+          <p>If the document doesn&apos;t display on your device, use the Open PDF link above.</p>
+        </section>
+      </main>
+      <Footer innerPage />
+    </>
+  )
+}
+
 function SupportPage() {
   return (
     <>
@@ -793,6 +818,7 @@ function SupportPage() {
 
 export default function App() {
   const currentPath = window.location.pathname.replace(/\/+$/, '') || '/'
+  const isCoaPage = currentPath === '/coa/apple-fritter-hybrid'
   const isSupportPage = currentPath === '/support'
   const isCollaboratePage = currentPath === '/collaborate'
 
@@ -811,17 +837,23 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    const pageTitle = isCollaboratePage
+    const pageTitle = isCoaPage
+      ? 'Apple Fritter Hybrid | COA 122 | Vibe Smoke & Supply Co'
+      : isCollaboratePage
       ? 'Food Truck & Pop-Up Collaborations | Vibe Smoke & Supply Co'
       : isSupportPage
         ? 'Support | Vibe Smoke & Supply Co'
         : 'Vibe Smoke & Supply Co | Punta Gorda, FL'
-    const pageDescription = isCollaboratePage
+    const pageDescription = isCoaPage
+      ? 'View the Apple Fritter Hybrid Certificate of Analysis (COA 122) PDF from Vibe Smoke & Supply Co.'
+      : isCollaboratePage
       ? 'Food trucks, makers, artists, and pop-up shops can request to collaborate at Vibe Smoke & Supply Co events in Punta Gorda, Florida.'
       : isSupportPage
         ? 'Contact Vibe Smoke & Supply Co support by email or phone, or visit us at 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982.'
         : 'Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop at 5260 Duncan Rd, Unit 3, Punta Gorda, Florida. Now open seven days a week. Adults 21+ only.'
-    const pageUrl = isCollaboratePage
+    const pageUrl = isCoaPage
+      ? 'https://www.vibesupplyco.org/coa/apple-fritter-hybrid'
+      : isCollaboratePage
       ? 'https://www.vibesupplyco.org/collaborate'
       : isSupportPage
         ? 'https://www.vibesupplyco.org/support'
@@ -833,8 +865,9 @@ export default function App() {
     document.querySelector('meta[property="og:description"]')?.setAttribute('content', pageDescription)
     document.querySelector('meta[property="og:url"]')?.setAttribute('content', pageUrl)
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', pageUrl)
-  }, [isCollaboratePage, isSupportPage])
+  }, [isCoaPage, isCollaboratePage, isSupportPage])
 
+  if (isCoaPage) return <><CoaPage /><MobileNavigation innerPage /></>
   if (isCollaboratePage) return <><CollaboratePage /><MobileNavigation innerPage /></>
   if (isSupportPage) return <><SupportPage /><MobileNavigation innerPage /></>
 
