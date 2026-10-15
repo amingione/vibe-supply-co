@@ -4,6 +4,21 @@ Vite/React launch site for Vibe Smoke & Supply Co., ready for Vercel.
 
 The public site includes a dedicated customer support page at `/support` with the canonical business address, phone, and email.
 
+## Hemp information
+
+`/hemp` lists the available information records; `/hemp/apple-fritter-hybrid`
+contains label details, warnings, and a link to the original COA. Both pages
+show the supplied QR beside the Apple Fritter information. These are informational
+pages with no ordering or promotional product claims. Header and footer links
+provide access, and Vercel rewrites support direct visits.
+
+Sources: `docs/hemp/COA-122/IMG_0715.jpeg` and `IMG_0716.jpeg` (label photos),
+the original COA PDF, and `QR/apple-fritter-coa-qr.png`. The photos guide the
+sunset color palette; their screen surrounds and conflicting compliance claims
+are not reproduced. The detail page explains the discrepancy between the label's
+below-0.3% total THC statement and the report's 24.718% total THC. The QR PNG
+arrived misnamed `eslint.config.js` and was renamed to `apple-fritter-coa-qr.png`.
+
 ## Certificate of Analysis
 
 `/coa/apple-fritter-hybrid` embeds COA 122 and offers a direct Open PDF link.

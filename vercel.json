@@ -16,6 +16,14 @@
     {
       "source": "/coa/apple-fritter-hybrid",
       "destination": "/index.html"
+    },
+    {
+      "source": "/hemp",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/hemp/apple-fritter-hybrid",
+      "destination": "/index.html"
     }
   ]
 }

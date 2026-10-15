@@ -4,6 +4,7 @@ import { StoreDirections } from './StoreLocatorMap'
 import ShopUpdates, { CalendarBanner, DailyBanner, OctoberMerchOffer } from './ShopUpdates'
 import { STORE_HOURS, getStoreStatus } from './storeHours'
 import { MAPS_URL, STORE } from './storeLocation'
+import HempPages from './HempPages'
 import appleFritterPdf from '../docs/hemp/COA-122/COA 122 - Apple Fritter Hybrid.pdf?url'
 
 const tumblers = [
@@ -122,6 +123,7 @@ function Header({ innerPage = false }) {
         <a href={innerPage ? '/#little-finds' : '#little-finds'} onClick={closeMenu}>Little Finds</a>
         <a href={innerPage ? '/#visit' : '#visit'} onClick={closeMenu}>Visit</a>
         <a href="/collaborate" onClick={closeMenu}>Collaborate</a>
+        <a href="/hemp" onClick={closeMenu}>Hemp Information</a>
         <a href="/support" onClick={closeMenu}>Support</a>
       </nav>
       <a className="now-open-link" href={innerPage ? '/#visit' : '#visit'}>Now Open</a>
@@ -523,6 +525,7 @@ function Footer({ innerPage = false }) {
             <a href={innerPage ? '/#in-store' : '#in-store'}>What&apos;s In Store</a>
             <a href={innerPage ? '/#visit' : '#visit'}>Visit</a>
             <a href="/collaborate">Collaborate</a>
+            <a href="/hemp">Hemp Information</a>
             <a href="/support">Support</a>
           </nav>
           <address className="footer__nap">
@@ -743,6 +746,7 @@ function CoaPage() {
       <main className="support-page" id="top">
         <Header innerPage />
         <section className="coa-page" id="coa-content" aria-labelledby="coa-title">
+          <a href="/hemp/apple-fritter-hybrid">← Apple Fritter information</a>
           <p>Certificate of Analysis · COA 122</p>
           <h1 id="coa-title">Apple Fritter Hybrid</h1>
           <p>View the certificate below, or open the PDF directly.</p>
@@ -818,6 +822,8 @@ function SupportPage() {
 
 export default function App() {
   const currentPath = window.location.pathname.replace(/\/+$/, '') || '/'
+  const isHempPage = currentPath === '/hemp'
+  const isHempDetailPage = currentPath === '/hemp/apple-fritter-hybrid'
   const isCoaPage = currentPath === '/coa/apple-fritter-hybrid'
   const isSupportPage = currentPath === '/support'
   const isCollaboratePage = currentPath === '/collaborate'
@@ -837,21 +843,31 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    const pageTitle = isCoaPage
+    const pageTitle = isHempPage
+      ? 'Hemp Information & Lab Results | Vibe Smoke & Supply Co'
+      : isHempDetailPage
+        ? 'Apple Fritter Hybrid Information & Lab Results | Vibe Smoke & Supply Co'
+        : isCoaPage
       ? 'Apple Fritter Hybrid | COA 122 | Vibe Smoke & Supply Co'
       : isCollaboratePage
       ? 'Food Truck & Pop-Up Collaborations | Vibe Smoke & Supply Co'
       : isSupportPage
         ? 'Support | Vibe Smoke & Supply Co'
         : 'Vibe Smoke & Supply Co | Punta Gorda, FL'
-    const pageDescription = isCoaPage
+    const pageDescription = isHempPage
+      ? 'Hemp flower information, label warnings, and certificates of analysis.'
+      : isHempDetailPage
+        ? 'Read Apple Fritter Hybrid product information, label warnings, and the supplied COA 122 laboratory report.'
+        : isCoaPage
       ? 'View the Apple Fritter Hybrid Certificate of Analysis (COA 122) PDF from Vibe Smoke & Supply Co.'
       : isCollaboratePage
       ? 'Food trucks, makers, artists, and pop-up shops can request to collaborate at Vibe Smoke & Supply Co events in Punta Gorda, Florida.'
       : isSupportPage
         ? 'Contact Vibe Smoke & Supply Co support by email or phone, or visit us at 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982.'
         : 'Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop at 5260 Duncan Rd, Unit 3, Punta Gorda, Florida. Now open seven days a week. Adults 21+ only.'
-    const pageUrl = isCoaPage
+    const pageUrl = isHempPage || isHempDetailPage
+      ? `https://www.vibesupplyco.org${isHempDetailPage ? '/hemp/apple-fritter-hybrid' : '/hemp'}`
+      : isCoaPage
       ? 'https://www.vibesupplyco.org/coa/apple-fritter-hybrid'
       : isCollaboratePage
       ? 'https://www.vibesupplyco.org/collaborate'
@@ -865,8 +881,19 @@ export default function App() {
     document.querySelector('meta[property="og:description"]')?.setAttribute('content', pageDescription)
     document.querySelector('meta[property="og:url"]')?.setAttribute('content', pageUrl)
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', pageUrl)
-  }, [isCoaPage, isCollaboratePage, isSupportPage])
+  }, [isHempPage, isHempDetailPage, isCoaPage, isCollaboratePage, isSupportPage])
 
+  if (isHempPage || isHempDetailPage) return (
+    <>
+      <a className="skip-link" href="#hemp-content">Skip to hemp information</a>
+      <main className="support-page hemp-shell" id="top">
+        <Header innerPage />
+        <HempPages detail={isHempDetailPage} />
+      </main>
+      <Footer innerPage />
+      <MobileNavigation innerPage />
+    </>
+  )
   if (isCoaPage) return <><CoaPage /><MobileNavigation innerPage /></>
   if (isCollaboratePage) return <><CollaboratePage /><MobileNavigation innerPage /></>
   if (isSupportPage) return <><SupportPage /><MobileNavigation innerPage /></>
