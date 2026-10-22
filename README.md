@@ -13,7 +13,7 @@ pages with no ordering or promotional product claims. They are intentionally
 unlisted: no header/footer links, absent from `sitemap.xml`, and served with
 `noindex` (Vercel `X-Robots-Tag` header plus a client-set robots meta). Access is
 the package QR code (→ `/coa/apple-fritter-hybrid`) or the "Looking for lab
-results?" note on `/support` (→ `/hemp`). Vercel rewrites support direct visits.
+results?" fine print under the FAQ on `/support` (→ `/hemp`). Vercel rewrites support direct visits.
 
 Sources: `docs/hemp/COA-122/IMG_0715.jpeg` and `IMG_0716.jpeg` (label photos),
 the original COA PDF, and `QR/apple-fritter-coa-qr.png`. The photos guide the

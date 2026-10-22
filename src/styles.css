@@ -2169,6 +2169,24 @@ body:has(.daily-banner) .store-status-tab {
   line-height: 1.5;
 }
 
+.support-faq__fineprint {
+  margin: 1.4rem 0 0;
+  color: var(--paper);
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.support-faq__fineprint a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.support-faq__fineprint a:hover,
+.support-faq__fineprint a:focus-visible {
+  color: var(--aqua);
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(1.5rem);

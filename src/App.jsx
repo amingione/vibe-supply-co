@@ -809,11 +809,10 @@ function SupportPage() {
                 <h3>Who can shop?</h3>
                 <p>Vibe is for adults 21+ only. Please bring a valid ID.</p>
               </article>
-              <article>
-                <h3>Looking for lab results?</h3>
-                <p>Scan the QR code on the package, or <a href="/hemp">find certificates of analysis here</a>.</p>
-              </article>
             </div>
+            <p className="support-faq__fineprint">
+              Looking for lab results? Scan the QR code on the package, or <a href="/hemp">view certificates of analysis</a>.
+            </p>
           </section>
         </section>
       </main>
