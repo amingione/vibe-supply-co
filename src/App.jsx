@@ -123,7 +123,6 @@ function Header({ innerPage = false }) {
         <a href={innerPage ? '/#little-finds' : '#little-finds'} onClick={closeMenu}>Little Finds</a>
         <a href={innerPage ? '/#visit' : '#visit'} onClick={closeMenu}>Visit</a>
         <a href="/collaborate" onClick={closeMenu}>Collaborate</a>
-        <a href="/hemp" onClick={closeMenu}>Hemp Information</a>
         <a href="/support" onClick={closeMenu}>Support</a>
       </nav>
       <a className="now-open-link" href={innerPage ? '/#visit' : '#visit'}>Now Open</a>
@@ -525,7 +524,6 @@ function Footer({ innerPage = false }) {
             <a href={innerPage ? '/#in-store' : '#in-store'}>What&apos;s In Store</a>
             <a href={innerPage ? '/#visit' : '#visit'}>Visit</a>
             <a href="/collaborate">Collaborate</a>
-            <a href="/hemp">Hemp Information</a>
             <a href="/support">Support</a>
           </nav>
           <address className="footer__nap">
@@ -811,6 +809,10 @@ function SupportPage() {
                 <h3>Who can shop?</h3>
                 <p>Vibe is for adults 21+ only. Please bring a valid ID.</p>
               </article>
+              <article>
+                <h3>Looking for lab results?</h3>
+                <p>Scan the QR code on the package, or <a href="/hemp">find certificates of analysis here</a>.</p>
+              </article>
             </div>
           </section>
         </section>
@@ -881,6 +883,16 @@ export default function App() {
     document.querySelector('meta[property="og:description"]')?.setAttribute('content', pageDescription)
     document.querySelector('meta[property="og:url"]')?.setAttribute('content', pageUrl)
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', pageUrl)
+
+    // Hemp and COA pages are QR landing spots: reachable, but kept out of search results.
+    const isUnlisted = isHempPage || isHempDetailPage || isCoaPage
+    let robotsMeta = document.querySelector('meta[name="robots"]')
+    if (isUnlisted && !robotsMeta) {
+      robotsMeta = document.createElement('meta')
+      robotsMeta.setAttribute('name', 'robots')
+      document.head.appendChild(robotsMeta)
+    }
+    robotsMeta?.setAttribute('content', isUnlisted ? 'noindex, nofollow' : 'index, follow')
   }, [isHempPage, isHempDetailPage, isCoaPage, isCollaboratePage, isSupportPage])
 
   if (isHempPage || isHempDetailPage) return (
