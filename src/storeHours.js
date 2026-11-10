@@ -4,9 +4,8 @@ const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Frida
 // Display strings and open/close hours live together so the hours list and the
 // live status badge can never drift apart. `opens`/`closes` are store-local 24h.
 export const STORE_HOURS = [
-  { days: 'Mon – Thu', time: '10am – 10pm', dayIndexes: [1, 2, 3, 4], opens: 10, closes: 22 },
-  { days: 'Fri – Sat', time: '10am – 11pm', dayIndexes: [5, 6], opens: 10, closes: 23 },
-  { days: 'Sunday', time: '10am – 6pm', dayIndexes: [0], opens: 10, closes: 18 },
+  { days: 'Mon – Sat', time: '12pm – 9pm', dayIndexes: [1, 2, 3, 4, 5, 6], opens: 12, closes: 21 },
+  { days: 'Sunday', time: '12pm – 6pm', dayIndexes: [0], opens: 12, closes: 18 },
 ]
 
 export function getStoreDay(now = new Date()) {

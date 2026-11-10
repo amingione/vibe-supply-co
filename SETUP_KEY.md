@@ -92,13 +92,12 @@ Confirmed by ownership. Use these exact hours on every listing, profile, and pag
 
 | Days | Hours | 24-hour (for listing forms) |
 | --- | --- | --- |
-| Monday – Thursday | 10am – 10pm | 10:00 – 22:00 |
-| Friday – Saturday | 10am – 11pm | 10:00 – 23:00 |
-| Sunday | 10am – 6pm | 10:00 – 18:00 |
+| Monday – Saturday | 12pm – 9pm | 12:00 – 21:00 |
+| Sunday | 12pm – 6pm | 12:00 – 18:00 |
 
 **One-line display**
 
-Mon–Thu 10am–10pm · Fri–Sat 10am–11pm · Sun 10am–6pm
+Mon–Sat 12pm–9pm · Sun 12pm–6pm
 
 Open seven days a week. Holiday or special hours must be set as listing overrides, not by editing the regular hours above.
 

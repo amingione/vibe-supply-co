@@ -5,7 +5,7 @@ import ShopUpdates, { CalendarBanner, DailyBanner, OctoberMerchOffer } from './S
 import { STORE_HOURS, getStoreStatus } from './storeHours'
 import { MAPS_URL, STORE } from './storeLocation'
 import HempPages from './HempPages'
-import appleFritterPdf from '../docs/hemp/COA-122/COA 122 - Apple Fritter Hybrid.pdf?url'
+import { findHempProduct } from './hempProducts'
 
 const tumblers = [
   { name: 'Mint', src: '/products/vibe-tumbler-mint.jpg' },
@@ -737,22 +737,22 @@ function CollaboratePage() {
   )
 }
 
-function CoaPage() {
+function CoaPage({ product }) {
   return (
     <>
       <a className="skip-link" href="#coa-content">Skip to certificate</a>
       <main className="support-page" id="top">
         <Header innerPage />
         <section className="coa-page" id="coa-content" aria-labelledby="coa-title">
-          <a href="/hemp/apple-fritter-hybrid">← Apple Fritter information</a>
-          <p>Certificate of Analysis · COA 122</p>
-          <h1 id="coa-title">Apple Fritter Hybrid</h1>
+          <a href={`/hemp/${product.slug}`}>← {product.name} information</a>
+          <p>Certificate of Analysis · {product.reportLabel}</p>
+          <h1 id="coa-title">{product.fullName}</h1>
           <p>View the certificate below, or open the PDF directly.</p>
-          <a className="button button--coral" href={appleFritterPdf} target="_blank" rel="noreferrer">Open PDF ↗</a>
+          <a className="button button--coral" href={product.pdf} target="_blank" rel="noreferrer">Open PDF ↗</a>
           <iframe
             className="coa-page__viewer"
-            src={appleFritterPdf}
-            title="COA 122 — Apple Fritter Hybrid Certificate of Analysis"
+            src={product.pdf}
+            title={`${product.reportLabel} — ${product.fullName} Certificate of Analysis`}
           />
           <p>If the document doesn&apos;t display on your device, use the Open PDF link above.</p>
         </section>
@@ -799,7 +799,7 @@ function SupportPage() {
             <div className="support-faq__items">
               <article>
                 <h3>What are your hours?</h3>
-                <p>Mon – Thu 10am – 10pm, Fri – Sat 10am – 11pm, Sunday 10am – 6pm.</p>
+                <p>Mon – Sat 12pm – 9pm, Sunday 12pm – 6pm.</p>
               </article>
               <article>
                 <h3>Where are you?</h3>
@@ -823,9 +823,12 @@ function SupportPage() {
 
 export default function App() {
   const currentPath = window.location.pathname.replace(/\/+$/, '') || '/'
-  const isHempPage = currentPath === '/hemp'
-  const isHempDetailPage = currentPath === '/hemp/apple-fritter-hybrid'
-  const isCoaPage = currentPath === '/coa/apple-fritter-hybrid'
+  const hempProduct = findHempProduct('/hemp', currentPath)
+  const coaProduct = findHempProduct('/coa', currentPath)
+  // Unknown /hemp/… and /coa/… slugs fall back to the hemp index rather than the storefront.
+  const isHempPage = currentPath === '/hemp' || (!hempProduct && !coaProduct && /^\/(hemp|coa)\//.test(currentPath))
+  const isHempDetailPage = Boolean(hempProduct)
+  const isCoaPage = Boolean(coaProduct)
   const isSupportPage = currentPath === '/support'
   const isCollaboratePage = currentPath === '/collaborate'
 
@@ -847,9 +850,9 @@ export default function App() {
     const pageTitle = isHempPage
       ? 'Hemp Information & Lab Results | Vibe Smoke & Supply Co'
       : isHempDetailPage
-        ? 'Apple Fritter Hybrid Information & Lab Results | Vibe Smoke & Supply Co'
+        ? `${hempProduct.fullName} Information & Lab Results | Vibe Smoke & Supply Co`
         : isCoaPage
-      ? 'Apple Fritter Hybrid | COA 122 | Vibe Smoke & Supply Co'
+      ? `${coaProduct.fullName} | ${coaProduct.reportLabel} | Vibe Smoke & Supply Co`
       : isCollaboratePage
       ? 'Food Truck & Pop-Up Collaborations | Vibe Smoke & Supply Co'
       : isSupportPage
@@ -858,18 +861,18 @@ export default function App() {
     const pageDescription = isHempPage
       ? 'Hemp flower information, label warnings, and certificates of analysis.'
       : isHempDetailPage
-        ? 'Read Apple Fritter Hybrid product information, label warnings, and the supplied COA 122 laboratory report.'
+        ? `Read ${hempProduct.fullName} product information${hempProduct.label ? ', label warnings,' : ''} and the supplied laboratory report (${hempProduct.reportLabel}).`
         : isCoaPage
-      ? 'View the Apple Fritter Hybrid Certificate of Analysis (COA 122) PDF from Vibe Smoke & Supply Co.'
+      ? `View the ${coaProduct.fullName} Certificate of Analysis (${coaProduct.reportLabel}) PDF from Vibe Smoke & Supply Co.`
       : isCollaboratePage
       ? 'Food trucks, makers, artists, and pop-up shops can request to collaborate at Vibe Smoke & Supply Co events in Punta Gorda, Florida.'
       : isSupportPage
         ? 'Contact Vibe Smoke & Supply Co support by email or phone, or visit us at 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982.'
         : 'Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop at 5260 Duncan Rd, Unit 3, Punta Gorda, Florida. Now open seven days a week. Adults 21+ only.'
     const pageUrl = isHempPage || isHempDetailPage
-      ? `https://www.vibesupplyco.org${isHempDetailPage ? '/hemp/apple-fritter-hybrid' : '/hemp'}`
+      ? `https://www.vibesupplyco.org${isHempDetailPage ? `/hemp/${hempProduct.slug}` : '/hemp'}`
       : isCoaPage
-      ? 'https://www.vibesupplyco.org/coa/apple-fritter-hybrid'
+      ? `https://www.vibesupplyco.org/coa/${coaProduct.slug}`
       : isCollaboratePage
       ? 'https://www.vibesupplyco.org/collaborate'
       : isSupportPage
@@ -892,20 +895,20 @@ export default function App() {
       document.head.appendChild(robotsMeta)
     }
     robotsMeta?.setAttribute('content', isUnlisted ? 'noindex, nofollow' : 'index, follow')
-  }, [isHempPage, isHempDetailPage, isCoaPage, isCollaboratePage, isSupportPage])
+  }, [isHempPage, isHempDetailPage, isCoaPage, isCollaboratePage, isSupportPage, hempProduct, coaProduct])
 
   if (isHempPage || isHempDetailPage) return (
     <>
       <a className="skip-link" href="#hemp-content">Skip to hemp information</a>
       <main className="support-page hemp-shell" id="top">
         <Header innerPage />
-        <HempPages detail={isHempDetailPage} />
+        <HempPages product={hempProduct} />
       </main>
       <Footer innerPage />
       <MobileNavigation innerPage />
     </>
   )
-  if (isCoaPage) return <><CoaPage /><MobileNavigation innerPage /></>
+  if (isCoaPage) return <><CoaPage product={coaProduct} /><MobileNavigation innerPage /></>
   if (isCollaboratePage) return <><CollaboratePage /><MobileNavigation innerPage /></>
   if (isSupportPage) return <><SupportPage /><MobileNavigation innerPage /></>
 
