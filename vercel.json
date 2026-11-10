@@ -18,24 +18,18 @@
       "destination": "/index.html"
     },
     {
-      "source": "/hemp",
-      "destination": "/index.html"
-    },
-    {
       "source": "/hemp/:slug",
       "destination": "/index.html"
     }
   ],
-  "headers": [
+  "redirects": [
     {
       "source": "/hemp",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
-      ]
-    },
+      "destination": "/",
+      "permanent": false
+    }
+  ],
+  "headers": [
     {
       "source": "/hemp/:path*",
       "headers": [

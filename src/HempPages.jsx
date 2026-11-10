@@ -1,5 +1,8 @@
-import { HEMP_PRODUCTS } from './hempProducts'
 import './hemp.css'
+
+// Product detail page for one hemp certificate. Reached only from that
+// product's QR landing page (/coa/<slug>); there is no index of these pages
+// and nothing on the storefront links to them.
 
 function LabLink({ product }) {
   const href = `/coa/${product.slug}`
@@ -18,25 +21,20 @@ function LabLink({ product }) {
   )
 }
 
-function ProductRecord({ product }) {
-  const titleId = `${product.slug}-title`
-  return (
-    <section className="hemp-record" aria-labelledby={titleId}>
-      <div>
-        <p className="hemp-eyebrow">{product.kind}</p>
-        <h2 id={titleId}>{product.name}</h2>
-        <p>Read the product information and review the supplied {product.name} laboratory report.</p>
-        <a className="hemp-text-link" href={`/hemp/${product.slug}`}>Product information <span aria-hidden="true">→</span></a>
-      </div>
-      <LabLink product={product} />
-    </section>
-  )
-}
-
-function ProductDetail({ product }) {
+export default function HempPages({ product }) {
   const { label } = product
   return (
-    <>
+    <div className="hemp-page" id="hemp-content">
+      <nav className="hemp-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span aria-hidden="true">/</span>
+        <span aria-current="page">{product.name}</span>
+      </nav>
+      <header className="hemp-intro">
+        <p className="hemp-eyebrow">Vibe Smoke &amp; Supply Co. · Adults 21+</p>
+        <h1>{product.titleLines[0]}<br /><span>{product.titleLines[1]}</span></h1>
+        <p>{`Product information${label ? ', label warnings,' : ''} and the supplied certificate of analysis, together in one place.`}</p>
+      </header>
+
       <section className="hemp-record" aria-labelledby="product-details-title">
         <div>
           <p className="hemp-eyebrow">Product reference</p>
@@ -71,25 +69,6 @@ function ProductDetail({ product }) {
           </article>
         </section>
       )}
-    </>
-  )
-}
-
-export default function HempPages({ product = null }) {
-  const detail = Boolean(product)
-  return (
-    <div className="hemp-page" id="hemp-content">
-      <nav className="hemp-breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a><span aria-hidden="true">/</span>
-        {detail ? <><a href="/hemp">Hemp information</a><span aria-hidden="true">/</span><span aria-current="page">{product.name}</span></> : <span aria-current="page">Hemp information</span>}
-      </nav>
-      <header className="hemp-intro">
-        <p className="hemp-eyebrow">Vibe Smoke &amp; Supply Co. · Adults 21+</p>
-        <h1>{detail ? <>{product.titleLines[0]}<br /><span>{product.titleLines[1]}</span></> : <>Hemp flower.<br /><span>Know the details.</span></>}</h1>
-        <p>{detail ? `Product information${product.label ? ', label warnings,' : ''} and the supplied certificate of analysis, together in one place.` : 'A reference for hemp flower labels and laboratory reports. Start with the product name to find its information and certificate.'}</p>
-      </header>
-
-      {detail ? <ProductDetail product={product} /> : HEMP_PRODUCTS.map((item) => <ProductRecord key={item.slug} product={item} />)}
 
       <p className="hemp-source-note">Product information and label wording are drawn from the supplied materials. Read the original certificate for test methods, results, and limitations.</p>
     </div>

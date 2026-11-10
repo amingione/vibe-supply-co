@@ -6,12 +6,17 @@ The public site includes a dedicated customer support page at `/support` with th
 
 ## Hemp information
 
-`/hemp` lists the available information records; `/hemp/<slug>` contains the
-product details and a link to the original COA, and `/coa/<slug>` embeds the PDF.
+These pages exist only to give the package QR codes somewhere to land. The
+owner does not want them findable from the main site, so there is **no index
+page and no inbound link anywhere on the storefront**: `/hemp` redirects to the
+homepage, unknown `/hemp/…` and `/coa/…` slugs render the homepage, and the
+former "Looking for lab results?" link on `/support` was removed. Each product
+is reachable only by its exact URL: `/coa/<slug>` embeds the PDF (the QR
+target) and links to `/hemp/<slug>`, which holds the product details.
 Every record is one entry in `src/hempProducts.jsx` (name, slugs, report facts,
 the imported PDF and QR). Add a product by adding an entry there plus its PDF
 and QR under `docs/hemp/`; the Vercel rewrites already match any `/hemp/:slug`
-and `/coa/:slug`. Unknown slugs fall back to the `/hemp` index.
+and `/coa/:slug`.
 
 Current records: Apple Fritter Hybrid (`apple-fritter-hybrid`, COA 122),
 Pineapple Express (`pineapple-express`, sample 396357) and Halle Berry
@@ -22,9 +27,9 @@ Their QR codes were generated with the `qrcode` CLI and encode the production
 `/coa/<slug>` URL. These are informational pages with no ordering or
 promotional product claims. They are intentionally unlisted: no header/footer
 links, absent from `sitemap.xml`, and served with `noindex` (Vercel
-`X-Robots-Tag` header plus a client-set robots meta). Access is the package QR
-code (→ `/coa/<slug>`) or the "Looking for lab results?" fine print under the
-FAQ on `/support` (→ `/hemp`). Vercel rewrites support direct visits.
+`X-Robots-Tag` header plus a client-set robots meta). The only intended access
+is the package QR code (→ `/coa/<slug>`). Vercel rewrites support direct visits.
+Do not add the paths to `robots.txt`; a `Disallow` line would advertise them.
 
 Sources: `docs/hemp/COA-122/IMG_0715.jpeg` and `IMG_0716.jpeg` (label photos),
 the original COA PDF, and `QR/apple-fritter-coa-qr.png`. The photos guide the

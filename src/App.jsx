@@ -810,9 +810,6 @@ function SupportPage() {
                 <p>Vibe is for adults 21+ only. Please bring a valid ID.</p>
               </article>
             </div>
-            <p className="support-faq__fineprint">
-              Looking for lab results? Scan the QR code on the package, or <a href="/hemp">view certificates of analysis</a>.
-            </p>
           </section>
         </section>
       </main>
@@ -823,10 +820,11 @@ function SupportPage() {
 
 export default function App() {
   const currentPath = window.location.pathname.replace(/\/+$/, '') || '/'
+  // Hemp/COA pages exist only as QR landing spots. There is deliberately no
+  // index of them, and nothing on the storefront links in: /hemp and unknown
+  // slugs render the homepage, and only exact product slugs render a page.
   const hempProduct = findHempProduct('/hemp', currentPath)
   const coaProduct = findHempProduct('/coa', currentPath)
-  // Unknown /hemp/… and /coa/… slugs fall back to the hemp index rather than the storefront.
-  const isHempPage = currentPath === '/hemp' || (!hempProduct && !coaProduct && /^\/(hemp|coa)\//.test(currentPath))
   const isHempDetailPage = Boolean(hempProduct)
   const isCoaPage = Boolean(coaProduct)
   const isSupportPage = currentPath === '/support'
@@ -847,9 +845,7 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    const pageTitle = isHempPage
-      ? 'Hemp Information & Lab Results | Vibe Smoke & Supply Co'
-      : isHempDetailPage
+    const pageTitle = isHempDetailPage
         ? `${hempProduct.fullName} Information & Lab Results | Vibe Smoke & Supply Co`
         : isCoaPage
       ? `${coaProduct.fullName} | ${coaProduct.reportLabel} | Vibe Smoke & Supply Co`
@@ -858,9 +854,7 @@ export default function App() {
       : isSupportPage
         ? 'Support | Vibe Smoke & Supply Co'
         : 'Vibe Smoke & Supply Co | Punta Gorda, FL'
-    const pageDescription = isHempPage
-      ? 'Hemp flower information, label warnings, and certificates of analysis.'
-      : isHempDetailPage
+    const pageDescription = isHempDetailPage
         ? `Read ${hempProduct.fullName} product information${hempProduct.label ? ', label warnings,' : ''} and the supplied laboratory report (${hempProduct.reportLabel}).`
         : isCoaPage
       ? `View the ${coaProduct.fullName} Certificate of Analysis (${coaProduct.reportLabel}) PDF from Vibe Smoke & Supply Co.`
@@ -869,8 +863,8 @@ export default function App() {
       : isSupportPage
         ? 'Contact Vibe Smoke & Supply Co support by email or phone, or visit us at 5260 Duncan Rd, Unit 3, Punta Gorda, FL 33982.'
         : 'Vibe Smoke & Supply Co is a veteran-owned smoke, vape, and supply shop at 5260 Duncan Rd, Unit 3, Punta Gorda, Florida. Now open seven days a week. Adults 21+ only.'
-    const pageUrl = isHempPage || isHempDetailPage
-      ? `https://www.vibesupplyco.org${isHempDetailPage ? `/hemp/${hempProduct.slug}` : '/hemp'}`
+    const pageUrl = isHempDetailPage
+      ? `https://www.vibesupplyco.org/hemp/${hempProduct.slug}`
       : isCoaPage
       ? `https://www.vibesupplyco.org/coa/${coaProduct.slug}`
       : isCollaboratePage
@@ -887,7 +881,7 @@ export default function App() {
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', pageUrl)
 
     // Hemp and COA pages are QR landing spots: reachable, but kept out of search results.
-    const isUnlisted = isHempPage || isHempDetailPage || isCoaPage
+    const isUnlisted = isHempDetailPage || isCoaPage
     let robotsMeta = document.querySelector('meta[name="robots"]')
     if (isUnlisted && !robotsMeta) {
       robotsMeta = document.createElement('meta')
@@ -895,9 +889,9 @@ export default function App() {
       document.head.appendChild(robotsMeta)
     }
     robotsMeta?.setAttribute('content', isUnlisted ? 'noindex, nofollow' : 'index, follow')
-  }, [isHempPage, isHempDetailPage, isCoaPage, isCollaboratePage, isSupportPage, hempProduct, coaProduct])
+  }, [isHempDetailPage, isCoaPage, isCollaboratePage, isSupportPage, hempProduct, coaProduct])
 
-  if (isHempPage || isHempDetailPage) return (
+  if (isHempDetailPage) return (
     <>
       <a className="skip-link" href="#hemp-content">Skip to hemp information</a>
       <main className="support-page hemp-shell" id="top">
