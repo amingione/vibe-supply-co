@@ -14,7 +14,7 @@
       "destination": "/index.html"
     },
     {
-      "source": "/coa/apple-fritter-hybrid",
+      "source": "/coa/:slug",
       "destination": "/index.html"
     },
     {
@@ -22,7 +22,7 @@
       "destination": "/index.html"
     },
     {
-      "source": "/hemp/apple-fritter-hybrid",
+      "source": "/hemp/:slug",
       "destination": "/index.html"
     }
   ],

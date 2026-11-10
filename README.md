@@ -6,14 +6,25 @@ The public site includes a dedicated customer support page at `/support` with th
 
 ## Hemp information
 
-`/hemp` lists the available information records; `/hemp/apple-fritter-hybrid`
-contains label details, warnings, and a link to the original COA. Both pages
-show the supplied QR beside the Apple Fritter information. These are informational
-pages with no ordering or promotional product claims. They are intentionally
-unlisted: no header/footer links, absent from `sitemap.xml`, and served with
-`noindex` (Vercel `X-Robots-Tag` header plus a client-set robots meta). Access is
-the package QR code (→ `/coa/apple-fritter-hybrid`) or the "Looking for lab
-results?" fine print under the FAQ on `/support` (→ `/hemp`). Vercel rewrites support direct visits.
+`/hemp` lists the available information records; `/hemp/<slug>` contains the
+product details and a link to the original COA, and `/coa/<slug>` embeds the PDF.
+Every record is one entry in `src/hempProducts.jsx` (name, slugs, report facts,
+the imported PDF and QR). Add a product by adding an entry there plus its PDF
+and QR under `docs/hemp/`; the Vercel rewrites already match any `/hemp/:slug`
+and `/coa/:slug`. Unknown slugs fall back to the `/hemp` index.
+
+Current records: Apple Fritter Hybrid (`apple-fritter-hybrid`, COA 122),
+Pineapple Express (`pineapple-express`, sample 396357) and Halle Berry
+(`halle-berry`, sample 280075). The two US CBD reports came without label
+artwork, so their pages carry report facts only; the "From the supplied label"
+storage/warnings sections render only for products with a `label` entry.
+Their QR codes were generated with the `qrcode` CLI and encode the production
+`/coa/<slug>` URL. These are informational pages with no ordering or
+promotional product claims. They are intentionally unlisted: no header/footer
+links, absent from `sitemap.xml`, and served with `noindex` (Vercel
+`X-Robots-Tag` header plus a client-set robots meta). Access is the package QR
+code (→ `/coa/<slug>`) or the "Looking for lab results?" fine print under the
+FAQ on `/support` (→ `/hemp`). Vercel rewrites support direct visits.
 
 Sources: `docs/hemp/COA-122/IMG_0715.jpeg` and `IMG_0716.jpeg` (label photos),
 the original COA PDF, and `QR/apple-fritter-coa-qr.png`. The photos guide the
@@ -24,9 +35,9 @@ arrived misnamed `eslint.config.js` and was renamed to `apple-fritter-coa-qr.png
 
 ## Certificate of Analysis
 
-`/coa/apple-fritter-hybrid` embeds COA 122 and offers a direct Open PDF link.
-Vite imports the original `docs/hemp/COA-122/COA 122 - Apple Fritter Hybrid.pdf`
-into the build, keeping one source copy. The route has a Vercel rewrite for direct visits.
+`/coa/<slug>` embeds the product's certificate and offers a direct Open PDF link.
+Vite imports the original PDFs from `docs/hemp/COA-122/` into the build, keeping
+one source copy of each. The route has a Vercel rewrite for direct visits.
 
 ## Local development
 
